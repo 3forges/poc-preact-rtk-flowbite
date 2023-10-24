@@ -5,9 +5,10 @@ import { request_Feedback } from "../features/PestoApi/Projects/pestoProjectSlic
  * REQUEST FEEDBACKS COMPONENT
  * @returns feedback list (string[])
  */
-export function Feedbacks(): JSX.Element {
+export function Feedbacks() {
   const requestFeedback: string[] = useAppSelector(request_Feedback)
-
+  console.info(requestFeedback[1])
+  /*
   return (
     <div className="feedback">
       <b>
@@ -21,4 +22,5 @@ export function Feedbacks(): JSX.Element {
       </div>
     </div>
   )
+  */
 }

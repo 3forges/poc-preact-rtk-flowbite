@@ -1,4 +1,4 @@
-import { useState } from 'preact/hooks';
+//import { useState } from 'preact/hooks';
 import { Children } from 'preact/compat';
 import NavBar from '../components/NavBar'
 import PestoFooter from '../components/Footer';
@@ -9,7 +9,7 @@ interface MainLayoutProps {
 }
 
 export const MainLayout = ({children}: MainLayoutProps ) => {
-    const [isDark, setIsDark] = useState<boolean>(false);
+    //const [isDark, setIsDark] = useState<boolean>(false);
 
     return (
         <>

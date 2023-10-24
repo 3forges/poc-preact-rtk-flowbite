@@ -5,7 +5,7 @@ import {
   PestoProjectApiEntity,
   request_Output,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
-import { PolyForm } from "../flowbite/PolyForm"
+import { PolyForm } from "./PolyForm"
 import { ProjectListCard } from "./ProjectListCard"
 import { Feedbacks } from "../Feedbacks"
 import { Dropdown, Button, TextInput } from "flowbite-react"
@@ -31,7 +31,8 @@ export function PestoProjectUI(): JSX.Element {
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] | any = useAppSelector(request_Output)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-
+  Feedbacks()
+  
   // JS FOR MODAL
   let none: string[] = Array(requestOutput?.length)
   none.fill("")
@@ -112,7 +113,7 @@ export function PestoProjectUI(): JSX.Element {
   /* ----------------------- JSX ----------------------- */
   return (
     <div>
-      <Feedbacks />
+
       <PolyForm />
       <hr style="margin:10px"/>
       {/* ----------------------FILTRE------------------- */}
