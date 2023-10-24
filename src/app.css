@@ -1,0 +1,79 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.preact:hover {
+  filter: drop-shadow(0 0 2em #673ab8aa);
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.root {
+  text-align: center;
+}
+
+.App-header {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-link {
+  color: rgb(112, 76, 182);
+}
+
+.button {
+  appearance: none;
+  background: none;
+  font-size: 18px;
+  padding: px;
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: 2px;
+  outline: none;
+  border: 3px solid transparent;
+  color: white;
+  padding-bottom: 4px;
+  cursor: pointer;
+  background-color: #0E7490;
+  border-radius: 10px;
+  transition: all 0.15s;
+  min-height: 36px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.25rem;;
+}
+
+.button:hover {
+  background-color: rgba(21, 94, 117, 1);
+}
+
+.feedback {
+  margin-top: 10px;
+  background: #535353;
+  color: #fff;
+  text-align: left;
+  padding: 5px;
+  font-size: 18px;
+  height: 100px;
+  overflow-y: scroll;
+}
+
