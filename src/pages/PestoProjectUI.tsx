@@ -27,27 +27,19 @@ interface Filter {
 export function PestoProjectUI(props: any): JSX.Element {
   console.dir(props)
   const dispatch = useAppDispatch()
-  let requestOutput: PestoProjectApiEntity[] | any = useAppSelector(request_Output)
+  let requestOutput: PestoProjectApiEntity[] = useAppSelector(request_Output)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-  
-  // JS FOR MODAL
-  let none: string[] = Array(requestOutput?.length)
-  none.fill("")
-  const [editionDisplay, setEditionDisplay] = useState(none)
-  function toggleEditMode(index: number) {
-    const tmp: string[] = [...none]
-    tmp.splice(index, 1, editionDisplay[index] !== "" ? "" : "display")
-    setEditionDisplay(tmp)
-  }
-
+  // dispatch(RequestProjectList())
   /* INITIALISE editionDisplay Array with default "none" */
   
-  // useEffect(() => {
-  //   setEditionDisplay(none)
-  // }, [requestOutput])
+   /// useEffect(() => {
+   ///   // dispatch(RequestProjectList())
+   ///   console.log(`Appel du useEffect sur [requestOutput], le fameux app selector`)
+   /// }, [requestOutput])
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
   useEffect(() => {
+    console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
     dispatch(RequestProjectList())
   }, [dispatch])
 
@@ -104,7 +96,7 @@ export function PestoProjectUI(props: any): JSX.Element {
     },
   ]
   if (filter.value !== "" && requestOutput.length > 0) {
-    requestOutput = requestOutput.filter(filters[filter.target].filterfunction)
+    // requestOutput = requestOutput.filter(filters[filter.target].filterfunction)
   }
 
   /* ----------------------- JSX ----------------------- */
@@ -157,11 +149,12 @@ export function PestoProjectUI(props: any): JSX.Element {
         {requestOutput &&
           requestOutput[0] &&
           requestOutput[0]._id !== 0 &&
-          requestOutput.map((item: any, index: number) => {
+          requestOutput.map((project: any, index: number) => {
             return (
-              <div key={item._id}>
+              <div key={project._id}>
                   <ProjectListCard
-                    project={item}
+                    project={project}
+                    isEditModeOn={false}
                   />
               </div>
             )

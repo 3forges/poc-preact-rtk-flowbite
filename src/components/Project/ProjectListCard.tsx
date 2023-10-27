@@ -1,9 +1,11 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { useAppDispatch } from "../../app/hooks"
 import {
   PestoProjectApiEntity,
   DeleteProjectById,
-  UpdateProjectById,
+  //UpdateProjectById,
+  updatePestoProjectAsync,
+  RequestProjectList,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
 import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
@@ -15,10 +17,11 @@ interface ListProps {
 interface ProjectCardEditModeOnProps {
   project: PestoProjectApiEntity
   setIsEditModeOnHook: Function
+  setProjectHook: Function
   dispatch: Function
 }
 
-export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, dispatch }: ProjectCardEditModeOnProps): JSX.Element {
+export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProjectHook, dispatch }: ProjectCardEditModeOnProps): JSX.Element {
   return (
       <>
 
@@ -66,6 +69,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, dispatch }
                       </span>
                   </div>
                   <Button
+                    className={`mt-2`}
                     type="submit"
                     onClick={async() => {
                       console.log(` >> CLICK UPDATE: `)
@@ -80,7 +84,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, dispatch }
                       console.log(` - uri = [${uri}]`)
                       console.log(` - created = [${created}]`)
                       // const V: any = document.getElementById(`${inputValue["_id"]+"__v"}`)
-                      const data: PestoProjectApiEntity = {
+                      const editedProject: PestoProjectApiEntity = {
                         _id: id,
                         name: name.value,
                         description: desc.value,
@@ -88,12 +92,16 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, dispatch }
                         createdAt: created,
                         // __v: Math.floor(V.value*1),
                       }
-                      console.log("data: ", data)
-                      await dispatch(UpdateProjectById(data))
-                      setIsEditModeOnHook(false);
+                      console.log("editedProject: ", editedProject)
+                      // await dispatch(UpdateProjectById(data))
+                      // await dispatch(updatePestoProjectAsync(editedProject))
+                      await setProjectHook(editedProject);
+                      await setIsEditModeOnHook(false);
+                      await dispatch(updatePestoProjectAsync(editedProject))
+                      await dispatch(RequestProjectList())
                     }}
                   >
-                    <LuSaveAll />
+                    <LuSaveAll/>
                     Update
                   </Button>
               </div>
@@ -191,12 +199,13 @@ export function ProjectCardEditModeOff(props: ListProps): JSX.Element {
 export function ProjectListCard(props: ListProps): JSX.Element {
   //console.log(props)
   const dispatch = useAppDispatch()
+  // useEffect(() => {
+  //   console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
+  //   dispatch(RequestProjectList())
+  // }, [dispatch])
   const item: any = props.project
   const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
-  let keys = []
-  for (let key in item) {
-    keys.push(key)
-  }
+  const [ project, setProject] = useState<PestoProjectApiEntity>(props.project);
 
   return (
     <>
@@ -204,9 +213,9 @@ export function ProjectListCard(props: ListProps): JSX.Element {
       }
       <Card>
       {isEditModeOn && (
-                  <ProjectCardEditModeOn dispatch={dispatch} setIsEditModeOnHook={setIsEditModeOn} project={props.project} />
+                  <ProjectCardEditModeOn setProjectHook={setProject} dispatch={dispatch} setIsEditModeOnHook={setIsEditModeOn} project={project} />
                   ) || (
-                  <ProjectCardEditModeOff project={props.project} />
+                  <ProjectCardEditModeOff project={project} />
                   )
                 }
       <div class="grid grid-cols-2 gap-2 z-0 p-3">

@@ -4,6 +4,7 @@ import pestoProjectReducer from "../features/PestoApi/Projects/pestoProjectSlice
 export const store = configureStore({
   reducer: {
     pestoProject: pestoProjectReducer,
+    // somethingElse: pestoProjectReducer,
   },
 })
 
