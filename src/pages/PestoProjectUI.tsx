@@ -1,15 +1,12 @@
 import { useState, useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
   RequestProjectList,
   PestoProjectApiEntity,
   request_Output,
-} from "../../features/PestoApi/Projects/pestoProjectSlice"
-import { PolyForm } from "./PolyForm"
-import { ProjectListCard } from "./ProjectListCard"
-import { Feedbacks } from "../Feedbacks"
+} from "../features/PestoApi/Projects/pestoProjectSlice"
+import { ProjectListCard } from "../components/Project/ProjectListCard"
 import { Dropdown, Button, TextInput } from "flowbite-react"
-import "./project.css"
 
 interface Filter {
   target: number
@@ -27,11 +24,11 @@ interface Filter {
  *  PROVIDE LIST WITH OPTIONAL BUTTONS (EDIT|REMOVE)
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
-export function PestoProjectUI(): JSX.Element {
+export function PestoProjectUI(props: any): JSX.Element {
+  console.dir(props)
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] | any = useAppSelector(request_Output)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-  Feedbacks()
   
   // JS FOR MODAL
   let none: string[] = Array(requestOutput?.length)
@@ -45,9 +42,9 @@ export function PestoProjectUI(): JSX.Element {
 
   /* INITIALISE editionDisplay Array with default "none" */
   
-  useEffect(() => {
-    setEditionDisplay(none)
-  }, [requestOutput])
+  // useEffect(() => {
+  //   setEditionDisplay(none)
+  // }, [requestOutput])
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
   useEffect(() => {
@@ -114,7 +111,6 @@ export function PestoProjectUI(): JSX.Element {
   return (
     <div>
 
-      <PolyForm />
       <hr style="margin:10px"/>
       {/* ----------------------FILTRE------------------- */}
       <div className="flex max-w-md flex-row gap-4 m-4">
@@ -164,22 +160,9 @@ export function PestoProjectUI(): JSX.Element {
           requestOutput.map((item: any, index: number) => {
             return (
               <div key={item._id}>
-                {editionDisplay[index] !== "display" && (
                   <ProjectListCard
-                    json={item}
-                    callback={() => {
-                      toggleEditMode(index)
-                    }}
+                    project={item}
                   />
-                  ) || (
-                    <PolyForm
-                      project={item}
-                      callback={() => {
-                        toggleEditMode(index)
-                      }}
-                    />
-                  )
-                }
               </div>
             )
           }

@@ -12,7 +12,8 @@ export interface FlowbiteExampleProps {
 
 }
 
-export const FlowbiteExample1 = (props: FlowbiteExampleProps) => {
+export const FlowbiteExample1 = (props: any) => {
+    console.dir(props)
     const [isOpened, setIsOpened] = useState<boolean>(false);
     // select the two elements that we'll work with
 
