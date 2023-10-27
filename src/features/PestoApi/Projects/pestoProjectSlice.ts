@@ -32,9 +32,7 @@ export type PestoProjectApiEntity = {
   name: string
   git_ssh_uri: string
   description: string
-  title?: string
   createdAt?: string
-  identifier?: string
   __v?: number
 }
 // AXIOS REQUEST READY
@@ -50,18 +48,15 @@ export type AxiosRequest = {
 interface PestoApiRequestState {
   value?: PestoProjectApiEntity[]
   status: "idle" | "loading" | "failed"
-  feedbacks: string[]
 }
 
 const initialState: PestoApiRequestState = {
   value: [],
   status: "idle",
-  feedbacks: [],
 }
 
 const ERROR_FEEDBACK: PestoApiRequestState = {
   status: "failed",
-  feedbacks: [],
 }
 
 const requestPestoApiAsync = createAsyncThunk(
@@ -69,20 +64,13 @@ const requestPestoApiAsync = createAsyncThunk(
   async (req: AxiosRequest): Promise<PestoApiRequestState> => {
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(req)
-
       return {
         value: data,
         status: "loading",
-        feedbacks: ["succes: " + req.method + " " + (req.url ? req.url : "")],
       }
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        ERROR_FEEDBACK.feedbacks.splice(0, 0, "Axios Error: " + error.message)
-        return ERROR_FEEDBACK
-      } else {
-        ERROR_FEEDBACK.feedbacks.splice(0, 0, "Unexpected error: " + error)
-        return ERROR_FEEDBACK
-      }
+      console.log(` ERROR - [requestPestoApiAsync] `, error)
+      throw error
     }
   },
 )
@@ -198,11 +186,9 @@ const pestoProjectSlice = createSlice({
         state.status = "idle"
         console.log(" PESTO REDUCER fetch fulfilled, payload: ", action.payload)
         state.value = action.payload.value
-        state.feedbacks.splice(0, 0, action.payload.feedbacks[0])
       })
       .addCase(requestPestoApiAsync.rejected, (state) => {
         state.status = "failed"
-        state.feedbacks.splice(0, 0, "rejected")
         console.log(" PESTO REDUCER requestPestoApiAsync failed")
       })
   },
@@ -213,15 +199,7 @@ const pestoProjectSlice = createSlice({
  *
  *  use:  `const maVar = useAppSelector(ROOSTATE VAR)`
  */
-/**
- * REQUEST FEEDBACKS STORE
- *
- *  use:  `const maVar = useAppSelector(request_Feedback)`
- * @param state
- * @returns (string[])
- */
-export const request_Feedback = (state: RootState) =>
-  state.pestoProject.feedbacks
+
 /**
  * REQUEST VALUE STORE
  *

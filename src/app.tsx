@@ -1,5 +1,4 @@
 import './app.css'
-import "./components/Project/project.css"
 import Layout from './layouts/MainLayout'
 
 export function App() {

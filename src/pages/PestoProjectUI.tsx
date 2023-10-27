@@ -5,11 +5,8 @@ import {
   PestoProjectApiEntity,
   request_Output,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
-import { PolyForm } from "../components/Project/PolyForm"
 import { ProjectListCard } from "../components/Project/ProjectListCard"
-import { Feedbacks } from "../components/Feedbacks"
 import { Dropdown, Button, TextInput } from "flowbite-react"
-// import "../components/Project/project.css"
 
 interface Filter {
   target: number
@@ -32,7 +29,6 @@ export function PestoProjectUI(props: any): JSX.Element {
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] | any = useAppSelector(request_Output)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-  Feedbacks()
   
   // JS FOR MODAL
   let none: string[] = Array(requestOutput?.length)
@@ -46,9 +42,9 @@ export function PestoProjectUI(props: any): JSX.Element {
 
   /* INITIALISE editionDisplay Array with default "none" */
   
-  useEffect(() => {
-    setEditionDisplay(none)
-  }, [requestOutput])
+  // useEffect(() => {
+  //   setEditionDisplay(none)
+  // }, [requestOutput])
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
   useEffect(() => {
@@ -115,7 +111,6 @@ export function PestoProjectUI(props: any): JSX.Element {
   return (
     <div>
 
-      <PolyForm />
       <hr style="margin:10px"/>
       {/* ----------------------FILTRE------------------- */}
       <div className="flex max-w-md flex-row gap-4 m-4">
@@ -165,22 +160,9 @@ export function PestoProjectUI(props: any): JSX.Element {
           requestOutput.map((item: any, index: number) => {
             return (
               <div key={item._id}>
-                {editionDisplay[index] !== "display" && (
                   <ProjectListCard
-                    json={item}
-                    callback={() => {
-                      toggleEditMode(index)
-                    }}
+                    project={item}
                   />
-                  ) || (
-                    <PolyForm
-                      project={item}
-                      callback={() => {
-                        toggleEditMode(index)
-                      }}
-                    />
-                  )
-                }
               </div>
             )
           }

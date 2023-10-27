@@ -1,77 +1,117 @@
 import { useState } from "preact/hooks";
 import { useAppDispatch } from "../../app/hooks"
 import {
-  RequestProjectList,
   PestoProjectApiEntity,
   DeleteProjectById,
+  UpdateProjectById,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
-import { Button, Card, ThemeProps } from "flowbite-react"
-import { Config } from 'tailwindcss';
+import { Button, TextInput, Card } from "flowbite-react"
+import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
 
 interface ListProps {
-  //json: object | PestoProjectApiEntity
-  json: PestoProjectApiEntity
-  callback: Function
+  project: PestoProjectApiEntity
+  isEditModeOn?: boolean
+}
+interface ProjectCardEditModeOnProps {
+  project: PestoProjectApiEntity
+  setIsEditModeOnHook: Function
+  dispatch: Function
 }
 
+export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, dispatch }: ProjectCardEditModeOnProps): JSX.Element {
+  return (
+      <>
 
-/**
- * RENDER JSON TO PROJECT-CARD
- * @param props
- *  json: PestoProjectApiEntity => data to render
- *
- *  callback: FUNCTION  => (optional) parent javascript for buttons
- * @returns PROJECT-CARD + BUTTONS (optional)
- */
-export function ProjectListCard(props: ListProps): JSX.Element {
-  //console.log(props)
-  const dispatch = useAppDispatch()
-  const item: any = props.json
-  const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
-  let keys = []
-  for (let key in item) {
-    keys.push(key)
-  }
+<article class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+              <div class="flex justify-between items-center mb-5 text-gray-500">
+                  <span class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
+                      {// <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
+                      }
+                      <LuKeyRound />
+                      Project id: {project._id}
+                  </span>
+                  <span class="text-sm">Created at: {project.createdAt}</span>
+              </div>
+              <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">Edit project properties:</a></h2>
+              {//<p class="mb-5 font-light text-gray-500 dark:text-gray-400">Static websites are now used to bootstrap lots of websites and are becoming the basis for a variety of tools that even influence both web designers and developers influence both web designers and developers.</p>
+              }
+                <div class="p-2 w-full h-screen bg-gray-200 flex justify-center items-center">
+                  <TextInput
+                    id={`input_name_${project._id}`}
+                    value={project.name}
+                    type="text"
+                    >Project name:
+                  </TextInput>
+                  <TextInput
+                    id={`input_git_ssh_uri_${project._id}`}
+                    value={project.git_ssh_uri}
+                    type="text"
+                    >Project GIT SSH URI:
+                  </TextInput>
+                  <TextInput
+                    id={`input_description_${project._id}`}
+                    value={project.description}
+                    type="text"
+                    >Project description:
+                  </TextInput>
+                </div>
+              {//
+              }
 
+              <div class="flex justify-between items-center">
+                  <div class="flex items-center space-x-4">
+                      <img class="w-7 h-7 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Jese Leos avatar" />
+                      <span class="font-medium dark:text-white">
+                          Jese Leos
+                      </span>
+                  </div>
+                  <Button
+                    type="submit"
+                    onClick={async() => {
+                      console.log(` >> CLICK UPDATE: `)
+                      const id: any = `${project._id}`
+                      const name: any = document.getElementById(`input_name_${project._id}`)
+                      const desc: any = document.getElementById(`input_description_${project._id}`)
+                      const uri: any = document.getElementById(`input_git_ssh_uri_${project._id}`)
+                      const created: any = `${project.createdAt}`
+                      console.log(` - id = [${id}]`)
+                      console.log(` - name = [${name}]`)
+                      console.log(` - desc = [${desc}]`)
+                      console.log(` - uri = [${uri}]`)
+                      console.log(` - created = [${created}]`)
+                      // const V: any = document.getElementById(`${inputValue["_id"]+"__v"}`)
+                      const data: PestoProjectApiEntity = {
+                        _id: id,
+                        name: name.value,
+                        description: desc.value,
+                        git_ssh_uri: uri.value,
+                        createdAt: created,
+                        // __v: Math.floor(V.value*1),
+                      }
+                      console.log("data: ", data)
+                      await dispatch(UpdateProjectById(data))
+                      setIsEditModeOnHook(false);
+                    }}
+                  >
+                    <LuSaveAll />
+                    Update
+                  </Button>
+              </div>
+          </article>
+
+
+
+
+          <div>
+
+
+          </div>
+      </>
+  )
+}
+export function ProjectCardEditModeOff(props: ListProps): JSX.Element {
   return (
     <>
-    
-      <Card className="ProjectCard">
-        <ul>
-          {keys.map((k: string) => {
-            return (
-              <li key={k}>
-                <span>{k}:</span>
-                <span>{item[k]}</span>
-              </li>
-            )
-          })}
-        </ul>
-        {/* CONTROLBAR IF CALLBACK PROVIDED */}
-        {typeof props.callback != "undefined" && (
-          <div class="grid grid-cols-2 gap-2 z-0">
-            <Button
-              onClick={() => {
-                props.callback() //modal(index)
-              }}
-            >
-              Edit
-            </Button>
-            <Button
-              onClick={async () => {
-                await dispatch(DeleteProjectById(item._id))
-                dispatch(RequestProjectList())
-              }}
-            >
-              Remove
-            </Button>
-          </div>
-        )}
-      </Card>
-
-      {// AJOUT TAILWINDCSS 
-      }
-      <Card>
       <div class="text-left">
         <div class="px-4 sm:px-0">
           <h3 class="text-base font-semibold leading-7 text-gray-900">Pesto Project Informations</h3>
@@ -81,23 +121,23 @@ export function ProjectListCard(props: ListProps): JSX.Element {
           <dl class="divide-y divide-gray-100">
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Project Id</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json._id}</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.project._id}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Project Name</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.name}</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.project.name}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Project Creation Date</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.createdAt}</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.project.createdAt}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Project Description</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.description}</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.project.description}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Project Git SSH URI</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.git_ssh_uri}</dd>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.project.git_ssh_uri}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
@@ -137,18 +177,50 @@ export function ProjectListCard(props: ListProps): JSX.Element {
           </dl>
         </div>
       </div>
+    </>
+  )
+}
+/**
+ * RENDER project TO PROJECT-CARD
+ * @param props
+ *  project: PestoProjectApiEntity => data to render
+ *
+ *  callback: FUNCTION  => (optional) parent javascript for buttons
+ * @returns PROJECT-CARD + BUTTONS (optional)
+ */
+export function ProjectListCard(props: ListProps): JSX.Element {
+  //console.log(props)
+  const dispatch = useAppDispatch()
+  const item: any = props.project
+  const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
+  let keys = []
+  for (let key in item) {
+    keys.push(key)
+  }
+
+  return (
+    <>
+      {// READONLY MODE
+      }
+      <Card>
+      {isEditModeOn && (
+                  <ProjectCardEditModeOn dispatch={dispatch} setIsEditModeOnHook={setIsEditModeOn} project={props.project} />
+                  ) || (
+                  <ProjectCardEditModeOff project={props.project} />
+                  )
+                }
       <div class="grid grid-cols-2 gap-2 z-0 p-3">
       <Button
               onClick={() => {
-                props.callback() //modal(index)
+                console.log(`Passage en mode Édition`)
+                setIsEditModeOn(true)
               }}
             >
               Edit
             </Button>
             <Button
               onClick={async () => {
-                await dispatch(DeleteProjectById(item._id))
-                dispatch(RequestProjectList())
+                dispatch(DeleteProjectById(item._id))
               }}
             >
               Remove
