@@ -1,3 +1,4 @@
+import { useState } from "preact/hooks";
 import { useAppDispatch } from "../../app/hooks"
 import {
   RequestProjectList,
@@ -8,28 +9,12 @@ import { Button, Card, ThemeProps } from "flowbite-react"
 import { Config } from 'tailwindcss';
 
 interface ListProps {
-  json: object | PestoProjectApiEntity
-  callback: Function,
-  theme: ThemeProps
+  //json: object | PestoProjectApiEntity
+  json: PestoProjectApiEntity
+  callback: Function
 }
-const twConf: Config = {
-  content: {
-    files: [
-      "*",
-      "*/**",
-    ]
-  }
-}
-const CardTheme: ThemeProps = {
-  dark: true,
-  theme: {
-    card: {
-      root: {
 
-      }
-    }
-  }
-}
+
 /**
  * RENDER JSON TO PROJECT-CARD
  * @param props
@@ -42,6 +27,7 @@ export function ProjectListCard(props: ListProps): JSX.Element {
   //console.log(props)
   const dispatch = useAppDispatch()
   const item: any = props.json
+  const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
   let keys = []
   for (let key in item) {
     keys.push(key)
@@ -88,30 +74,30 @@ export function ProjectListCard(props: ListProps): JSX.Element {
       <Card>
       <div class="text-left">
         <div class="px-4 sm:px-0">
-          <h3 class="text-base font-semibold leading-7 text-gray-900">Applicant Information</h3>
-          <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details and application.</p>
+          <h3 class="text-base font-semibold leading-7 text-gray-900">Pesto Project Informations</h3>
+          <p class="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Project details</p>
         </div>
         <div class="mt-6 border-t border-gray-100">
           <dl class="divide-y divide-gray-100">
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Full name</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Margot Foster</dd>
+              <dt class="text-sm font-medium leading-6 text-gray-900">Project Id</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json._id}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Application for</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Backend Developer</dd>
+              <dt class="text-sm font-medium leading-6 text-gray-900">Project Name</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.name}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Email address</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
+              <dt class="text-sm font-medium leading-6 text-gray-900">Project Creation Date</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.createdAt}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">Salary expectation</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">$120,000</dd>
+              <dt class="text-sm font-medium leading-6 text-gray-900">Project Description</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.description}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-              <dt class="text-sm font-medium leading-6 text-gray-900">About</dt>
-              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.</dd>
+              <dt class="text-sm font-medium leading-6 text-gray-900">Project Git SSH URI</dt>
+              <dd class="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{props.json.git_ssh_uri}</dd>
             </div>
             <div class="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
               <dt class="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
@@ -150,6 +136,23 @@ export function ProjectListCard(props: ListProps): JSX.Element {
             </div>
           </dl>
         </div>
+      </div>
+      <div class="grid grid-cols-2 gap-2 z-0 p-3">
+      <Button
+              onClick={() => {
+                props.callback() //modal(index)
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              onClick={async () => {
+                await dispatch(DeleteProjectById(item._id))
+                dispatch(RequestProjectList())
+              }}
+            >
+              Remove
+            </Button>
       </div>
       </Card>
     </>
