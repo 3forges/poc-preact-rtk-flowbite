@@ -9,7 +9,7 @@ import { PolyForm } from "../components/Project/PolyForm"
 import { ProjectListCard } from "../components/Project/ProjectListCard"
 import { Feedbacks } from "../components/Feedbacks"
 import { Dropdown, Button, TextInput } from "flowbite-react"
-import "../components/Project/project.css"
+// import "../components/Project/project.css"
 
 interface Filter {
   target: number
