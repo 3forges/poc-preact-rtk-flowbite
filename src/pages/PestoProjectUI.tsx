@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
   RequestProjectList,
   PestoProjectApiEntity,
   request_Output,
-} from "../../features/PestoApi/Projects/pestoProjectSlice"
-import { PolyForm } from "./PolyForm"
-import { ProjectListCard } from "./ProjectListCard"
-import { Feedbacks } from "../Feedbacks"
+} from "../features/PestoApi/Projects/pestoProjectSlice"
+import { PolyForm } from "../components/Project/PolyForm"
+import { ProjectListCard } from "../components/Project/ProjectListCard"
+import { Feedbacks } from "../components/Feedbacks"
 import { Dropdown, Button, TextInput } from "flowbite-react"
-import "./project.css"
+import "../components/Project/project.css"
 
 interface Filter {
   target: number

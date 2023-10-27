@@ -19,7 +19,7 @@ export default function NavbarWithDropdown() {
         >
           <Dropdown.Header>
             <span className="block text-sm">Bonnie Green</span>
-            <span className="block truncate text-sm font-medium">name@flowbite.com</span>
+            <span className="block truncate text-sm font-medium">Bonnie@flowbite.com</span>
           </Dropdown.Header>
           <Dropdown.Item>Dashboard</Dropdown.Item>
           <Dropdown.Item>Settings</Dropdown.Item>
@@ -30,13 +30,11 @@ export default function NavbarWithDropdown() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="?home" active>
-          Home
-        </Navbar.Link>
-        <Navbar.Link href="?about">About</Navbar.Link>
-        <Navbar.Link href="?projects">Projects</Navbar.Link>
-        <Navbar.Link href="?pricing">Pricing</Navbar.Link>
-        <Navbar.Link href="?contact">Contact</Navbar.Link>
+        <Navbar.Link href="/" active>Home</Navbar.Link>
+        <Navbar.Link href="/about">About</Navbar.Link>
+        <Navbar.Link href="/projects">Projects</Navbar.Link>
+        <Navbar.Link href="/pricing">Pricing</Navbar.Link>
+        <Navbar.Link href="/contact">Contact</Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   )
