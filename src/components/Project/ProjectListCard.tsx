@@ -1,10 +1,11 @@
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { useAppDispatch } from "../../app/hooks"
 import {
   PestoProjectApiEntity,
   DeleteProjectById,
   //UpdateProjectById,
   updatePestoProjectAsync,
+  RequestProjectList,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
 import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
@@ -94,9 +95,10 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                       console.log("editedProject: ", editedProject)
                       // await dispatch(UpdateProjectById(data))
                       // await dispatch(updatePestoProjectAsync(editedProject))
-                      dispatch(updatePestoProjectAsync(editedProject))
-                      setProjectHook(editedProject);
-                      setIsEditModeOnHook(false);
+                      await setProjectHook(editedProject);
+                      await setIsEditModeOnHook(false);
+                      await dispatch(updatePestoProjectAsync(editedProject))
+                      await dispatch(RequestProjectList())
                     }}
                   >
                     <LuSaveAll/>
@@ -197,6 +199,10 @@ export function ProjectCardEditModeOff(props: ListProps): JSX.Element {
 export function ProjectListCard(props: ListProps): JSX.Element {
   //console.log(props)
   const dispatch = useAppDispatch()
+  // useEffect(() => {
+  //   console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
+  //   dispatch(RequestProjectList())
+  // }, [dispatch])
   const item: any = props.project
   const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
   const [ project, setProject] = useState<PestoProjectApiEntity>(props.project);

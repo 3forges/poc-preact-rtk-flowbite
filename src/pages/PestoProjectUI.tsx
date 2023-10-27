@@ -29,7 +29,7 @@ export function PestoProjectUI(props: any): JSX.Element {
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] = useAppSelector(request_Output)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-  
+  // dispatch(RequestProjectList())
   /* INITIALISE editionDisplay Array with default "none" */
   
    /// useEffect(() => {
@@ -39,7 +39,7 @@ export function PestoProjectUI(props: any): JSX.Element {
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
   useEffect(() => {
-    console.log(`Appel`)
+    console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
     dispatch(RequestProjectList())
   }, [dispatch])
 
