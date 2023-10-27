@@ -1,3 +1,3 @@
-export default function Priving() {
-  return <div>Prices:</div>
+export default function Priving(props: any) {
+  return <div>{props.path}</div>
 }

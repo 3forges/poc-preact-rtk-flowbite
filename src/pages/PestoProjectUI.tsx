@@ -27,7 +27,8 @@ interface Filter {
  *  PROVIDE LIST WITH OPTIONAL BUTTONS (EDIT|REMOVE)
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
-export function PestoProjectUI(): JSX.Element {
+export function PestoProjectUI(props: any): JSX.Element {
+  console.dir(props)
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] | any = useAppSelector(request_Output)
   const [filter, SetFilter] = useState({ target: 0, value: "" })

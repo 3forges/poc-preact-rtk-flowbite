@@ -1,3 +1,3 @@
-export default function About() {
-  return <div>About:</div>
+export default function About(props: any) {
+  return <div>{props.path}:</div>
 }
