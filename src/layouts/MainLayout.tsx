@@ -22,7 +22,7 @@ const customTheme: CustomFlowbiteTheme = {
   },
   card: {
     root: {
-        base: 'bg-cyan-500 hover:bg-teal-400 rounded ring-teal-300 shadow-teal-200 hover:shadow-teal-600 shadow-lg hover:shadow-xl p-2 md:p-3 lg:p-4 xl:p-6  m-2 md:m-3 lg:m-4 xl:m-6',
+        base: 'bg-cyan-500 hover:bg-teal-400 rounded ring-teal-300 shadow-teal-200 hover:shadow-teal-600 shadow-lg hover:shadow-xl p-2 md:p-3 lg:p-4 xl:p-6  m-2 md:m-3 lg:m-4 xl:m-6 ease-in-out duration-1000',
         children: 'bg-white-100 hover:bg-teal-300 rounded p-2 md:p-3 lg:p-4 xl:p-6 ease-in-out duration-1000'
     }
   }
