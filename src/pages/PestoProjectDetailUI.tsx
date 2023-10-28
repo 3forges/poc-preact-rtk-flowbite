@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
   RequestProjectList,
   PestoProjectApiEntity,
-  pestoProjectRequestOutput,
+  pestoProjectListRequestOutput,
   RequestProjectById,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
 import { ProjectListCard } from "../components/Project/ProjectListCard"
