@@ -1,11 +1,12 @@
 import { useEffect, useState } from "preact/hooks";
-import { useAppDispatch } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import {
   PestoProjectApiEntity,
   DeleteProjectById,
-  //UpdateProjectById,
-  updatePestoProjectAsync,
+  UpdateProject,
   RequestProjectList,
+  RequestProjectById,
+  pestoProjectRequestOutput,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
 import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
@@ -93,11 +94,11 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                         // __v: Math.floor(V.value*1),
                       }
                       console.log("editedProject: ", editedProject)
-                      // await dispatch(UpdateProjectById(data))
-                      // await dispatch(updatePestoProjectAsync(editedProject))
+                      // await dispatch(UpdateProject(data))
+                      // await dispatch(UpdateProject(editedProject))
                       await setProjectHook(editedProject);
                       await setIsEditModeOnHook(false);
-                      await dispatch(updatePestoProjectAsync(editedProject))
+                      await dispatch(UpdateProject(editedProject))
                       await dispatch(RequestProjectList())
                     }}
                   >
@@ -199,11 +200,11 @@ export function ProjectCardEditModeOff(props: ListProps): JSX.Element {
 export function ProjectListCard(props: ListProps): JSX.Element {
   //console.log(props)
   const dispatch = useAppDispatch()
+ 
   // useEffect(() => {
   //   console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
   //   dispatch(RequestProjectList())
   // }, [dispatch])
-  const item: any = props.project
   const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
   const [ project, setProject] = useState<PestoProjectApiEntity>(props.project);
 
@@ -220,16 +221,16 @@ export function ProjectListCard(props: ListProps): JSX.Element {
                 }
       <div class="grid grid-cols-2 gap-2 z-0 p-3">
       <Button
-              onClick={() => {
+              onClick={async() => {
                 console.log(`Passage en mode Édition`)
-                setIsEditModeOn(true)
+                await setIsEditModeOn(true)
               }}
             >
               Edit
             </Button>
             <Button
               onClick={async () => {
-                dispatch(DeleteProjectById(item._id))
+                await dispatch(DeleteProjectById(`${project._id}`))
               }}
             >
               Remove

@@ -2,6 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../../../app/store"
 import axios from "axios"
 
+/**
+ * very important ref: 
+ * https://stackoverflow.com/questions/63516716/redux-toolkit-is-it-possible-to-dispatch-other-actions-from-the-same-slice-in-o
+ * ---------------------------------------------------------
+ **/
 const API_PORT = "3000"
 const API_HOST = "localhost"
 const API_BASE_URL = `http://${API_HOST}:${API_PORT}`
@@ -84,6 +89,14 @@ export const API_LIST_ALL_PESTO_PROJECTS: AxiosRequest = {
     "Content-Type": "application/json",
   },
 }
+export const API_GET_PESTO_PROJECT_BY_ID: AxiosRequest = {
+  baseURL: urls.PESTOPROJECT,
+  method: methods.GET,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+}
 export const API_CREATE_PESTO_PROJECT: AxiosRequest = {
   baseURL: urls.PESTOPROJECT,
   method: methods.POST,
@@ -120,7 +133,7 @@ export const API_DELETE_ENTITY_BY_ID: AxiosRequest = {
  * Nouvelle fonctions chirrugie JB
  */
 export const createPestoProjectAsync = createAsyncThunk(
-  "pestoApi/getAllPestoProjects",
+  "createPestoProject",
   async (project: PestoProjectApiEntity): Promise<PestoApiRequestState> => {
     API_CREATE_PESTO_PROJECT.data = project
     try {
@@ -130,7 +143,7 @@ export const createPestoProjectAsync = createAsyncThunk(
         status: "pending",
       }
     } catch (error) {
-      console.log(` ERROR - [getAllPestoProjectsAsync] `, error)
+      console.log(` ERROR - [createPestoProject] `, error)
       throw error
     }
   }
@@ -139,16 +152,32 @@ export const createPestoProjectAsync = createAsyncThunk(
  * Nouvelle fonctions chirrugie JB
  */
 export const getAllPestoProjectsAsync = createAsyncThunk(
-  "pestoApi/getAllPestoProjects",
+  "getAllPestoProjects",
   async (): Promise<PestoApiRequestState> => {
     try {
-      const { data } = await axios<PestoProjectApiEntity[]>(API_DELETE_ENTITY_BY_ID)
+      const { data } = await axios<PestoProjectApiEntity[]>(API_LIST_ALL_PESTO_PROJECTS)
       return {
         value: data,
         status: "pending",
       }
     } catch (error) {
-      console.log(` ERROR - [getAllPestoProjectsAsync] `, error)
+      console.log(` ERROR - [getAllPestoProjects] `, error)
+      throw error
+    }
+  }
+)
+export const getPestoProjectByIdAsync = createAsyncThunk(
+  "getPestoProjectById",
+  async (project_id: string): Promise<PestoApiRequestState> => {
+    API_GET_PESTO_PROJECT_BY_ID.url = "/" + project_id
+    try {
+      const { data } = await axios<PestoProjectApiEntity[]>(API_GET_PESTO_PROJECT_BY_ID)
+      return {
+        value: data,
+        status: "pending",
+      }
+    } catch (error) {
+      console.log(` ERROR - [getPestoProjectByIdAsync] `, error)
       throw error
     }
   }
@@ -158,19 +187,20 @@ export const getAllPestoProjectsAsync = createAsyncThunk(
  * Nouvelle fonctions chirrugie JB
  */
 export const updatePestoProjectAsync = createAsyncThunk(
-  "pestoApi/getAllPestoProjects",
+  "updatePestoProject",
   async (project: PestoProjectApiEntity): Promise<PestoApiRequestState> => {
       //
     API_UPDATE_PROJECT_BY_ID.url = "/" + project._id
     API_UPDATE_PROJECT_BY_ID.data = project
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(API_UPDATE_PROJECT_BY_ID)
+      
       return {
         value: data,
         status: "pending",
       }
     } catch (error) {
-      console.log(` ERROR - [getAllPestoProjectsAsync] `, error)
+      console.log(` ERROR - [updatePestoProject] `, error)
       throw error
     }
   }
@@ -179,17 +209,17 @@ export const updatePestoProjectAsync = createAsyncThunk(
  * Nouvelle fonctions chirrugie JB
  */
 export const deletePestoProjectByIdAsync = createAsyncThunk(
-  "pestoApi/getAllPestoProjects",
+  "deletePestoProjectById",
   async (project_id: string): Promise<PestoApiRequestState> => {
     API_DELETE_ENTITY_BY_ID.url = "/" + project_id
     try {
-      const { data } = await axios<PestoProjectApiEntity[]>(API_LIST_ALL_PESTO_PROJECTS)
+      const { data } = await axios<PestoProjectApiEntity[]>(API_DELETE_ENTITY_BY_ID)
       return {
         value: data,
         status: "pending",
       }
     } catch (error) {
-      console.log(` ERROR - [getAllPestoProjectsAsync] `, error)
+      console.log(` ERROR - [deletePestoProjectById] `, error)
       throw error
     }
   }
@@ -217,8 +247,9 @@ export const deletePestoProjectByIdAsync = createAsyncThunk(
  * @returns request to api
  */
 export const CreateProject = (project: PestoProjectApiEntity) => {
-  API_CREATE_PESTO_PROJECT.data = project
-  return requestPestoApiAsync(API_CREATE_PESTO_PROJECT)
+  // API_CREATE_PESTO_PROJECT.data = project
+  // return requestPestoApiAsync(API_CREATE_PESTO_PROJECT)
+  return createPestoProjectAsync(project)
 }
 /**
  * FUNCTION TO REQUEST PROJECT LIST
@@ -227,33 +258,137 @@ export const CreateProject = (project: PestoProjectApiEntity) => {
  * @returns [json] (PestoProjectApiEntity[])
  */
 export const RequestProjectList = () => {
-  return requestPestoApiAsync(API_LIST_ALL_PESTO_PROJECTS)
+  return getAllPestoProjectsAsync()
+}
+export const RequestProjectById = (project_id: string) => {
+  return getPestoProjectByIdAsync(project_id)
 }
 /**
  * FONCTION UPDATE PROJECT
  *
- *  use: `< ... onClick={() => dispatch(UpdateProjectById(data))}>`
+ *  use: `< ... onClick={() => dispatch(UpdateProject(data))}>`
  * @param data (PestoProjectApiEntity)
  * @returns void
  */
-export const UpdateProjectById = (project: PestoProjectApiEntity) => {
-  console.log(project)
-  API_UPDATE_PROJECT_BY_ID.url = "/" + project._id
-  API_UPDATE_PROJECT_BY_ID.data = project
-  return requestPestoApiAsync(API_UPDATE_PROJECT_BY_ID)
+export const  UpdateProject = (project: PestoProjectApiEntity) => {
+  // console.log(project)
+  // API_UPDATE_PROJECT_BY_ID.url = "/" + project._id
+  // API_UPDATE_PROJECT_BY_ID.data = project
+  // return requestPestoApiAsync(API_UPDATE_PROJECT_BY_ID)
+  const apiResponse = updatePestoProjectAsync(project)
+  return apiResponse;
 }
 /**
  * FUNCTION DELETE PROJECT
  *
  *  use: `< ... onClick={() => dispatch(DeleteProjectById(item._id))}>`
- * @param id (string)
+ * @param project_id (string)
  * @returns void
  */
-export const DeleteProjectById = (id: string) => {
-  API_DELETE_ENTITY_BY_ID.url = "/" + id
-  return requestPestoApiAsync(API_DELETE_ENTITY_BY_ID)
+export const DeleteProjectById = (project_id: string) => {
+  //API_DELETE_ENTITY_BY_ID.url = "/" + id
+  //return requestPestoApiAsync(API_DELETE_ENTITY_BY_ID)
+  return deletePestoProjectByIdAsync(project_id)
 }
 
+export const pestoProjectSlice = createSlice({
+  name: "pestoProject",
+  initialState,
+  reducers: {
+    /* EMPTY */
+    
+  },
+  extraReducers: (builder) => {
+    /**
+     * Create Pesto Project Reducer 
+     */
+    builder
+      .addCase(createPestoProjectAsync.pending, (state) => {
+        state.status = "pending"
+        console.log(" PESTO REDUCER [createPestoProjectAsync] pending...")
+      })
+      .addCase(createPestoProjectAsync.fulfilled, (state, action) => {
+        state.status = "completed"
+        console.log(" PESTO REDUCER [createPestoProjectAsync] fulfilled, payload: ", action.payload)
+        state.value = action.payload.value
+      })
+      .addCase(createPestoProjectAsync.rejected, (state) => {
+        state.status = "failed"
+        console.log(" PESTO REDUCER [createPestoProjectAsync] failed")
+      })
+    /**
+     * Get all Pesto Projects Extra Reducer 
+     */
+    builder
+      .addCase(getAllPestoProjectsAsync.pending, (state) => {
+        state.status = "pending"
+        console.log(" PESTO REDUCER [getAllPestoProjectsAsync] pending...")
+      })
+      .addCase(getAllPestoProjectsAsync.fulfilled, (state, action) => {
+        state.status = "completed"
+        console.log(" PESTO REDUCER [getAllPestoProjectsAsync] fulfilled, payload: ", action.payload)
+        state.value = action.payload.value
+      })
+      .addCase(getAllPestoProjectsAsync.rejected, (state) => {
+        state.status = "failed"
+        console.log(" PESTO REDUCER [getAllPestoProjectsAsync] failed")
+      })
+    
+    /**
+     * Get one Pesto Project by ID Extra Reducer 
+     */
+    builder
+      .addCase(getPestoProjectByIdAsync.pending, (state) => {
+        state.status = "pending"
+        console.log(" PESTO REDUCER [getPestoProjectByIdAsync] pending...")
+      })
+      .addCase(getPestoProjectByIdAsync.fulfilled, (state, action) => {
+        state.status = "completed"
+        console.log(" PESTO REDUCER [getPestoProjectByIdAsync] fulfilled, payload: ", action.payload)
+        state.value = action.payload.value
+      })
+      .addCase(getPestoProjectByIdAsync.rejected, (state) => {
+        state.status = "failed"
+        console.log(" PESTO REDUCER [getPestoProjectByIdAsync] failed")
+      })
+
+      
+    /**
+     * Update Pesto Project Reducer 
+     */
+    builder
+      .addCase(updatePestoProjectAsync.pending, (state) => {
+        state.status = "pending"
+        console.log(" PESTO REDUCER [updatePestoProjectAsync] pending...")
+      })
+      .addCase(updatePestoProjectAsync.fulfilled, (state, action) => {
+        state.status = "completed"
+        console.log(" PESTO REDUCER [updatePestoProjectAsync] fulfilled, payload: ", action.payload)
+        state.value = action.payload.value
+      })
+      .addCase(updatePestoProjectAsync.rejected, (state) => {
+        state.status = "failed"
+        console.log(" PESTO REDUCER [updatePestoProjectAsync] failed")
+      })
+    /**
+     * Delete Pesto Project Reducer 
+     */
+    builder
+      .addCase(deletePestoProjectByIdAsync.pending, (state, action) => { 
+        state.status = "pending"
+        console.log(` PESTO REDUCER [deletePestoProjectByIdAsync] pending... {action.type}=[${action.type}], full action is :`, action)
+      })
+      .addCase(deletePestoProjectByIdAsync.fulfilled, (state, action) => {
+        state.status = "completed"
+        console.log(" PESTO REDUCER [deletePestoProjectByIdAsync] fulfilled, payload: ", action.payload)
+        state.value = action.payload.value
+      })
+      .addCase(deletePestoProjectByIdAsync.rejected, (state) => {
+        state.status = "failed"
+        console.log(" PESTO REDUCER [deletePestoProjectByIdAsync] failed")
+      })
+  },
+})
 /*
   PESTO REDUCERS
   
@@ -263,63 +398,7 @@ export const DeleteProjectById = (id: string) => {
   action types that correspond to the reducers and state.
 
   The reducer argument is passed to createReducer().
- */
-const pestoProjectSlice = createSlice({
-  name: "pestoProject",
-  initialState,
-  reducers: {
-    /* EMPTY */
-  },
-  extraReducers: (builder) => {
-    /**
-     * Get all Pesto Projects Extra Reducer 
-     */
-
-    /**
-     * Create Pesto Projects Extra Reducer 
-     */
-
-    /**
-     * Update Pesto Projects Extra Reducer 
-     */
-    
-    builder
-      .addCase(updatePestoProjectAsync.pending, (state) => {
-        state.status = "pending"
-        console.log(" PESTO REDUCER updatePestoProjectAsync pending...")
-      })
-      .addCase(updatePestoProjectAsync.fulfilled, (state, action) => {
-        state.status = "completed"
-        console.log(" PESTO REDUCER updatePestoProjectAsync fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
-      })
-      .addCase(updatePestoProjectAsync.rejected, (state) => {
-        state.status = "failed"
-        console.log(" PESTO REDUCER updatePestoProjectAsync failed")
-      })
-    /**
-     * Delete Pesto Project Extra Reducer 
-     */
-    /**
-     * Legacy extra reducer
-     */
-    builder
-      .addCase(requestPestoApiAsync.pending, (state) => {
-        state.status = "pending"
-        console.log(" PESTO REDUCER requestPestoApiAsync pending...")
-      })
-      .addCase(requestPestoApiAsync.fulfilled, (state, action) => {
-        state.status = "completed"
-        console.log(" PESTO REDUCER fetch fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
-      })
-      .addCase(requestPestoApiAsync.rejected, (state) => {
-        state.status = "failed"
-        console.log(" PESTO REDUCER requestPestoApiAsync failed")
-      })
-  },
-})
-
+  */
 /**
  *  YOUR STORE FOR ANY PAGES
  *
@@ -329,18 +408,13 @@ const pestoProjectSlice = createSlice({
 /**
  * REQUEST VALUE STORE
  *
- *  use:  `const maVar = useAppSelector(request_Output)`
+ *  use:  `const maVar = useAppSelector(reque st_Output)`
  * @param state
  * @returns json (PestoProjectApiEntity)
  */
-export const request_Output = (state: RootState) => state.pestoProject.value
-/**
- * GEt all projects from STORE
- *
- *  use:  `const maVar = useAppSelector(request_Output)`
- * @param state
- * @returns json (PestoProjectApiEntity)
- */
-export const getAllPRojects_Output = (state: RootState) => state.pestoProject.value
+// export const reques t_Output = (state: RootState) => state.getAllPestoProjects.value
+
+export const pestoProjectRequestOutput = (state: RootState) => state.pestoProject.value
 
 export default pestoProjectSlice.reducer
+
