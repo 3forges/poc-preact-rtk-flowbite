@@ -10,6 +10,7 @@ import Pricing from "../pages/Pricing"
 import Contact from "../pages/Contact"
 import type { CustomFlowbiteTheme } from 'flowbite-react';
 import { Flowbite } from 'flowbite-react';
+import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -50,6 +51,7 @@ export const MainLayout = ({children}: MainLayoutProps ): JSX.Element => {
         <Router>
             <Home path="/" />
             <PestoProjectUI path="/projects" />
+            <PestoProjectDetailUI path="/projects/:id" project={{name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
             <About path="/about" />
             <Pricing path="/pricing" />
             <Contact path="/contact" />
