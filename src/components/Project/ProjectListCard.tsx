@@ -37,8 +37,6 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                   <span class="text-sm">Created at: {project.createdAt}</span>
               </div>
               <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">Edit project properties:</a></h2>
-              {//<p class="mb-5 font-light text-gray-500 dark:text-gray-400">Static websites are now used to bootstrap lots of websites and are becoming the basis for a variety of tools that even influence both web designers and developers influence both web designers and developers.</p>
-              }
                 <div class="p-2 w-full bg-gray-200 flex justify-center items-center">
                   <TextInput
                     id={`input_name_${project._id}`}
