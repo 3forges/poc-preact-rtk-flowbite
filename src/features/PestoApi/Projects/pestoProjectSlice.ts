@@ -1,6 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { AnyAction, AsyncThunkAction, Dispatch, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../../../app/store"
 import axios from "axios"
+import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+
 
 /**
  * very important ref: 
@@ -110,26 +112,39 @@ export const API_DELETE_ENTITY_BY_ID: AxiosRequest = {
  *    DEBUT CHIRURGIE ARCHI JB
  * !!!!!!!!!!!! !!!!!!!!!!!! !!!!!!!!!!!! 
  */
-
+interface CreatePestoProjectRequestState {
+  createdProject: PestoProjectApiEntity
+  status: "completed" | "pending" | "failed" // ça loulou, ça s'appelle une
+                                        // énumération anoyme
+}
 /**
  * Nouvelle fonctions chirrugie JB
  */
 export const createPestoProjectAsync = createAsyncThunk(
   "createPestoProject",
-  async (project: PestoProjectApiEntity): Promise<GetProjectsListRequestState> => {
+  async (project: PestoProjectApiEntity): Promise<CreatePestoProjectRequestState> => {
     API_CREATE_PESTO_PROJECT.data = project
     try {
-      const { data } = await axios<PestoProjectApiEntity[]>(API_CREATE_PESTO_PROJECT)
+      const { data } = await axios<PestoProjectApiEntity>(API_CREATE_PESTO_PROJECT)
       return {
-        projectList: data,
-        status: "pending",
+        createdProject: data,
+        status: "completed",
       }
     } catch (error) {
       console.log(` ERROR - [createPestoProject] `, error)
-      throw error
+      //throw error
+      return {
+        createdProject: {
+          name: `An error occured, your project [${project}] wast not created`,
+          description: `An error occured, your project [${project}] wast not created`,
+          git_ssh_uri: `An error occured, your project [${project}] wast not created`
+        },
+        status: "failed",
+      }
     }
   }
 )
+
 /**
  * Nouvelle fonctions chirrugie JB
  */
@@ -140,7 +155,7 @@ export const getAllPestoProjectsAsync = createAsyncThunk(
       const { data } = await axios<PestoProjectApiEntity[]>(API_LIST_ALL_PESTO_PROJECTS)
       return {
         projectList: data,
-        status: "pending",
+        status: "completed",
       }
     } catch (error) {
       console.log(` ERROR - [getAllPestoProjects] `, error)
@@ -156,11 +171,15 @@ export const getPestoProjectByIdAsync = createAsyncThunk(
       const { data } = await axios<PestoProjectApiEntity[]>(API_GET_PESTO_PROJECT_BY_ID)
       return {
         projectList: data,
-        status: "pending",
+        status: "completed",
       }
     } catch (error) {
       console.log(` ERROR - [getPestoProjectByIdAsync] `, error)
-      throw error
+      //throw error
+      return {
+        projectList: [],
+        status: "failed",
+      }
     }
   }
 )
@@ -189,11 +208,19 @@ export const updatePestoProjectAsync = createAsyncThunk(
       
       return {
         updatedProject: data,
-        status: "pending",
+        status: "completed",
       }
     } catch (error) {
       console.log(` ERROR - [updatePestoProject] `, error)
-      throw error
+      //throw error
+      return {
+        updatedProject: {
+          name: `An error occured, your project [${project}] wast not updated`,
+          description: `An error occured, your project [${project}] wast not updated`,
+          git_ssh_uri: `An error occured, your project [${project}] wast not updated`
+        },
+        status: "failed",
+      }
     }
   }
 )
@@ -208,7 +235,7 @@ export const deletePestoProjectByIdAsync = createAsyncThunk(
       const { data } = await axios<PestoProjectApiEntity>(API_DELETE_ENTITY_BY_ID)
       return {
         deletedProject: data,
-        status: "pending",
+        status: "completed",
       }
     } catch (error) {
       console.log(` ERROR - [deletePestoProjectById] `, error)
@@ -303,7 +330,8 @@ export const pestoProjectSlice = createSlice({
       .addCase(createPestoProjectAsync.fulfilled, (state, action) => {
         state.status = "completed"
         console.log(" PESTO REDUCER [createPestoProjectAsync] fulfilled, payload: ", action.payload)
-        state.projectList = action.payload.projectList
+        // bidon à changer ci-dessous
+        state.projectList[0] = action.payload.createdProject
       })
       .addCase(createPestoProjectAsync.rejected, (state) => {
         state.status = "failed"
@@ -321,6 +349,9 @@ export const pestoProjectSlice = createSlice({
         state.status = "completed"
         console.log(" PESTO REDUCER [getAllPestoProjectsAsync] fulfilled, payload: ", action.payload)
         state.projectList = action.payload.projectList
+        for (let index = 0; index < state.projectList.length; index++) {
+          action.payload.projectList[index] = state.projectList[index];
+        }
       })
       .addCase(getAllPestoProjectsAsync.rejected, (state) => {
         state.status = "failed"
@@ -356,7 +387,7 @@ export const pestoProjectSlice = createSlice({
       })
       .addCase(updatePestoProjectAsync.fulfilled, (state, action) => {
         state.status = "completed"
-        console.log(" PESTO REDUCER [updatePestoProjectAsync] fulfilled, payload: ", action.payload)
+        console.log(" ///////+++ START PESTO REDUCER [updatePestoProjectAsync] fulfilled, payload: ", action.payload)
         // --- 
         // 1. find the index in array, of the updated Project
         let indexOfUpdatedProjectInProjectListFromStore = -1;
@@ -369,13 +400,21 @@ export const pestoProjectSlice = createSlice({
           const writableDraftElement = state.projectList[index];
           console.log(` >>> SO HERE THE writableDraftElement [${index}] : `, writableDraftElement)
           console.log(` >>> SO HERE THE writableDraftElement [${index}] PESTO PROJECTID : `, writableDraftElement._id)
-          if (`${action.payload.updatedProject._id}` == `writableDraftElement._id`) {
+          console.log(` >>> SO HERE THE action.payload.updatedProject._id : [${action.payload.updatedProject._id}] `)
+          if (`${action.payload.updatedProject._id}` == `${writableDraftElement._id}`) {
             indexOfUpdatedProjectInProjectListFromStore = index
+            console.log(` >>>> J'AI TROUVE LE PROJECT DS LA LISTE à l'index [${index}]`)
+            // state.projectList[index] = action.payload.updatedProject
+            // state.projectList.splice(indexOfUpdatedProjectInProjectListFromStore,1, action.payload.updatedProject) ? console.log("good") : console.log("fail")
             break;
           }
         }
-        state.projectList[indexOfUpdatedProjectInProjectListFromStore] = action.payload.updatedProject
+        console.log(` >>>> [JSON.stringify(state, null, 4)] `)
+        console.log(JSON.stringify(state, null, 4))
+
+        // state.projectList[indexOfUpdatedProjectInProjectListFromStore] = action.payload.updatedProject
         //state.projectList = [action.payload.updatedProject]
+        // return state;
         
       })
       .addCase(updatePestoProjectAsync.rejected, (state) => {
@@ -429,4 +468,3 @@ export const pestoProjectSlice = createSlice({
 export const pestoProjectListRequestOutput = (state: RootState) => state.pestoProjectList.projectList
 
 export default pestoProjectSlice.reducer
-

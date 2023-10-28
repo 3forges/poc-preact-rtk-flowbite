@@ -41,6 +41,7 @@ export function PestoProjectUI(props: any): JSX.Element {
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
   useEffect(() => {
+    //(async () => {await dispatch(RequestProjectList())})()
     console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
     dispatch(RequestProjectList())
   }, [dispatch])

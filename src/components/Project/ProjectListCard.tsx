@@ -99,7 +99,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                       await setProjectHook(editedProject);
                       await setIsEditModeOnHook(false);
                       await dispatch(UpdateProject(editedProject))
-                      await dispatch(RequestProjectList())
+                      // await dispatch(RequestProjectList())
                       // dispatch(RequestProjectList())
                     }}
                   >
