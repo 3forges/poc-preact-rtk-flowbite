@@ -46,7 +46,7 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <F
         {/* children */}
         { 
             Children.forEach(children, (child, index) => {
-                console.log(` Loop over MainLayout children, chil no.${index} : [${child}]`)
+                console.log(` Loop over MainLayout children, chil no.${index} : `, child)
                 return child;
             })
         }
@@ -56,7 +56,7 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <F
             {//https://github.com/preactjs/preact-router/issues/405#issuecomment-927369168
               // <PestoProjectDetailUI path="/projects/:id" project={{_id: parseInt(":id"), name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
             }
-            <Route path="/projects/:project_id" component={PestoProjectDetailUI}/>
+            <Route path="/project/:project_id?" component={PestoProjectDetailUI}/>
             <Route path="/about" component={About}/>
             <Route path="/pricing" component={Pricing}/>
             <Route path="/contact" component={Contact}/>
