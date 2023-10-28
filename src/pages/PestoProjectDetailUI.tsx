@@ -1,7 +1,7 @@
 import { useState, useEffect } from "preact/hooks"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
-  RequestProjectList,
+  // RequestProjectList,
   PestoProjectApiEntity,
   pestoProjectListRequestOutput,
   RequestProjectById,
@@ -31,7 +31,7 @@ interface PestoProjectDetailProps {
 export const PestoProjectDetailUI: FunctionalComponent<PestoProjectDetailProps> = ({ project_id }: PestoProjectDetailProps): JSX.Element => {
   console.log(`[PestoProjectDetailUI] - project_id: `, project_id)
   const dispatch = useAppDispatch()
-  let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectRequestOutput)
+  let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectListRequestOutput)
   
   const getProjectFromId = (param_project_id: string): PestoProjectApiEntity => {
     let toReturn: PestoProjectApiEntity = {
