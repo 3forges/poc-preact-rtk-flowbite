@@ -3,14 +3,14 @@ import { Children } from 'preact/compat';
 import NavBar from '../components/NavBar'
 import PestoFooter from '../components/Footer';
 import {PestoProjectUI} from "../pages/PestoProjectUI"
-import { Router } from "preact-router"
+import { Router, Route } from "preact-router"
 import Home from "../pages/Home"
 import About from "../pages/About"
 import Pricing from "../pages/Pricing"
 import Contact from "../pages/Contact"
 import type { CustomFlowbiteTheme } from 'flowbite-react';
 import { Flowbite } from 'flowbite-react';
-import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
+import PestoProjectDetailUI from '../pages/PestoProjectDetailUI';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -51,7 +51,11 @@ export const MainLayout = ({children}: MainLayoutProps ): JSX.Element => {
         <Router>
             <Home path="/" />
             <PestoProjectUI path="/projects" />
-            <PestoProjectDetailUI path="/projects/:id" project={{name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
+            {//https://github.com/preactjs/preact-router/issues/405#issuecomment-927369168
+              // <PestoProjectDetailUI path="/projects/:id" project={{_id: parseInt(":id"), name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
+            }
+            <Route path="/projects/:id" component={PestoProjectDetailUI}/>
+            
             <About path="/about" />
             <Pricing path="/pricing" />
             <Contact path="/contact" />

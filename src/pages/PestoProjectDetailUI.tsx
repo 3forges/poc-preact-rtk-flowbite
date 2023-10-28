@@ -14,10 +14,11 @@ interface Filter {
   value: string
   filterfunction: Function
 }
-
+{//https://github.com/preactjs/preact-router/issues/405#issuecomment-927369168
+  // <PestoProjectDetailUI path="/projects/:id" project={{_id: parseInt(":id"), name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
+}
 interface PestoProjectDetailProps {
-  project: PestoProjectApiEntity,
-  path: string;
+  project_id: PestoProjectApiEntity;
 }
 /**
  * PROJECT MAIN COMPONENT
@@ -29,11 +30,26 @@ interface PestoProjectDetailProps {
  *  PROVIDE LIST WITH OPTIONAL BUTTONS (EDIT|REMOVE)
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
-export function PestoProjectDetailUI({ project, path }: PestoProjectDetailProps): JSX.Element {
-  console.log(`[PestoProjectDetailUI] - path: `, path)
+export default function PestoProjectDetailUI({ project_id }: PestoProjectDetailProps): JSX.Element {
+  console.log(`[PestoProjectDetailUI] - project_id: `, project_id)
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectRequestOutput)
-  const [filter, SetFilter] = useState({ target: 0, value: "" })
+  
+  const getProjectFromId = (param_project_id: string): PestoProjectApiEntity => {
+    let toReturn: PestoProjectApiEntity = {
+      name: 'defaultOne',
+      description: "default desc",
+      git_ssh_uri: 'git@github.com:3forges/pesto-api'
+    }
+    for (let index = 0; index < requestOutput.length; index++) {
+      const currproj = requestOutput[index];
+      if (`${currproj._id}` == `${param_project_id}`) {
+        toReturn = currproj;
+        break;
+      }
+    }
+    return toReturn;
+  }
   // const [projectList, setProjectList] = useState<PestoProjectApiEntity[]>(requestOutput)
   // setProjectList([...requestOutput])
   // dispatch(RequestProjectList())
@@ -46,8 +62,9 @@ export function PestoProjectDetailUI({ project, path }: PestoProjectDetailProps)
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
   useEffect(() => {
+    console.log(`[PestoProjectDetailUI] - project_id: `, project_id)
     console.log(` [PestoProjectDetailUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
-    dispatch(RequestProjectById(`${project._id}`))
+    dispatch(RequestProjectById(`${project_id}`))
   }, [dispatch])
   
 
@@ -55,10 +72,11 @@ export function PestoProjectDetailUI({ project, path }: PestoProjectDetailProps)
   /* ----------------------- JSX ----------------------- */
   return (
     <div className="p-2">
+      <h2>Project Details</h2>
       {/* ----------------------PROJECT DETAIL------------------- */}
       <div className="p-2">
                   <ProjectListCard
-                    project={project}
+                    project={getProjectFromId(`${project_id}`)}
                     isEditModeOn={false}
                   />
       </div>
