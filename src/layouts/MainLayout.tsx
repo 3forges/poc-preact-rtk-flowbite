@@ -10,7 +10,9 @@ import Pricing from "../pages/Pricing"
 import Contact from "../pages/Contact"
 import type { CustomFlowbiteTheme } from 'flowbite-react';
 import { Flowbite } from 'flowbite-react';
-import PestoProjectDetailUI from '../pages/PestoProjectDetailUI';
+import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
+import { FunctionalComponent } from 'preact';
+import FlowbiteExample1 from '../components/FlowbiteExample1';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -30,7 +32,7 @@ interface MainLayoutProps {
     theme?: any,
 }
 
-export const MainLayout = ({children}: MainLayoutProps ): JSX.Element => {
+export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <FlowbiteExample1 /> }: MainLayoutProps ): JSX.Element => {
     //const [isDark, setIsDark] = useState<boolean>(false);
 
     return (
@@ -49,16 +51,15 @@ export const MainLayout = ({children}: MainLayoutProps ): JSX.Element => {
             })
         }
         <Router>
-            <Home path="/" />
-            <PestoProjectUI path="/projects" />
+            <Route path="/" component={Home}/>
+            <Route path="/projects" component={PestoProjectUI}/>
             {//https://github.com/preactjs/preact-router/issues/405#issuecomment-927369168
               // <PestoProjectDetailUI path="/projects/:id" project={{_id: parseInt(":id"), name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
             }
-            <Route path="/projects/:id" component={PestoProjectDetailUI}/>
-            
-            <About path="/about" />
-            <Pricing path="/pricing" />
-            <Contact path="/contact" />
+            <Route path="/projects/:project_id" component={PestoProjectDetailUI}/>
+            <Route path="/about" component={About}/>
+            <Route path="/pricing" component={Pricing}/>
+            <Route path="/contact" component={Contact}/>
         </Router>
         <PestoFooter />
         </Flowbite>

@@ -9,10 +9,12 @@ import { useState } from 'preact/hooks';
 
 
 export interface FlowbiteExampleProps {
-
+    type?: string;
+    key?: any;
+    props?: any;
 }
 
-export const FlowbiteExample1 = (props: any) => {
+export const FlowbiteExample1 = (props: FlowbiteExampleProps) => {
     console.dir(props)
     const [isOpened, setIsOpened] = useState<boolean>(false);
     // select the two elements that we'll work with

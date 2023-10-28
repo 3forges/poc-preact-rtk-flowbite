@@ -7,13 +7,10 @@ import {
   RequestProjectById,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
 import { ProjectListCard } from "../components/Project/ProjectListCard"
-import { Dropdown, Button, TextInput } from "flowbite-react"
+import { FunctionalComponent } from 'preact'
 
-interface Filter {
-  target: number
-  value: string
-  filterfunction: Function
-}
+
+
 {//https://github.com/preactjs/preact-router/issues/405#issuecomment-927369168
   // <PestoProjectDetailUI path="/projects/:id" project={{_id: parseInt(":id"), name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
 }
@@ -30,7 +27,8 @@ interface PestoProjectDetailProps {
  *  PROVIDE LIST WITH OPTIONAL BUTTONS (EDIT|REMOVE)
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
-export default function PestoProjectDetailUI({ project_id }: PestoProjectDetailProps): JSX.Element {
+
+export const PestoProjectDetailUI: FunctionalComponent<PestoProjectDetailProps> = ({ project_id }: PestoProjectDetailProps): JSX.Element => {
   console.log(`[PestoProjectDetailUI] - project_id: `, project_id)
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectRequestOutput)
@@ -67,7 +65,7 @@ export default function PestoProjectDetailUI({ project_id }: PestoProjectDetailP
     dispatch(RequestProjectById(`${project_id}`))
   }, [dispatch])
   
-
+  // const fetchedProject = await getProjectFromId(`${project_id}`);
 
   /* ----------------------- JSX ----------------------- */
   return (
@@ -83,3 +81,5 @@ export default function PestoProjectDetailUI({ project_id }: PestoProjectDetailP
     </div>
   )
 }
+
+// export default PestoProjectDetailUI
