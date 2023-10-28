@@ -100,6 +100,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                       await setIsEditModeOnHook(false);
                       await dispatch(UpdateProject(editedProject))
                       await dispatch(RequestProjectList())
+                      // dispatch(RequestProjectList())
                     }}
                   >
                     <LuSaveAll/>

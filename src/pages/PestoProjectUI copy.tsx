@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks"
+import { useState, useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
   RequestProjectList,
@@ -25,12 +25,11 @@ interface Filter {
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
 export function PestoProjectUI(props: any): JSX.Element {
-  // console.dir(props)
+  console.dir(props)
   const dispatch = useAppDispatch()
   let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectRequestOutput)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-  // const [projectList, setProjectList] = useState<PestoProjectApiEntity[]>(requestOutput)
-  // setProjectList([...requestOutput])
+  
   // dispatch(RequestProjectList())
   /* INITIALISE editionDisplay Array with default "none" */
   
@@ -44,7 +43,7 @@ export function PestoProjectUI(props: any): JSX.Element {
     console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
     dispatch(RequestProjectList())
   }, [dispatch])
-  
+
   /* FILTERS  */
   const filters: Filter[] = [
     {
@@ -97,9 +96,9 @@ export function PestoProjectUI(props: any): JSX.Element {
       },
     },
   ]
-  // if (filter.value !== "" && requestOutput.length > 0) {
+  if (filter.value !== "" && requestOutput.length > 0) {
     // requestOutput = requestOutput.filter(filters[filter.target].filterfunction)
-  // }
+  }
 
   /* ----------------------- JSX ----------------------- */
   return (

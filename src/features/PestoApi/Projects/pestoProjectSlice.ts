@@ -275,8 +275,9 @@ export const  UpdateProject = (project: PestoProjectApiEntity) => {
   // API_UPDATE_PROJECT_BY_ID.url = "/" + project._id
   // API_UPDATE_PROJECT_BY_ID.data = project
   // return requestPestoApiAsync(API_UPDATE_PROJECT_BY_ID)
-  const apiResponse = updatePestoProjectAsync(project)
-  return apiResponse;
+  // const apiResponse = updatePestoProjectAsync(project)
+  //return apiResponse;
+  return updatePestoProjectAsync(project)
 }
 /**
  * FUNCTION DELETE PROJECT
@@ -288,7 +289,7 @@ export const  UpdateProject = (project: PestoProjectApiEntity) => {
 export const DeleteProjectById = (project_id: string) => {
   //API_DELETE_ENTITY_BY_ID.url = "/" + id
   //return requestPestoApiAsync(API_DELETE_ENTITY_BY_ID)
-  return deletePestoProjectByIdAsync(project_id)
+  return deletePestoProjectByIdAsync(project_id);
 }
 
 export const pestoProjectSlice = createSlice({
