@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
   RequestProjectList,
   PestoProjectApiEntity,
-  pestoProjectRequestOutput,
+  pestoProjectListRequestOutput,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
 import { ProjectListCard } from "../components/Project/ProjectListCard"
 import { Dropdown, Button, TextInput } from "flowbite-react"
@@ -27,7 +27,7 @@ interface Filter {
 export function PestoProjectUI(props: any): JSX.Element {
   // console.dir(props)
   const dispatch = useAppDispatch()
-  let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectRequestOutput)
+  let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectListRequestOutput)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
   // const [projectList, setProjectList] = useState<PestoProjectApiEntity[]>(requestOutput)
   // setProjectList([...requestOutput])

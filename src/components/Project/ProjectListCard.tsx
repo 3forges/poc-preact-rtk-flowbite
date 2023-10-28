@@ -6,7 +6,7 @@ import {
   UpdateProject,
   RequestProjectList,
   RequestProjectById,
-  pestoProjectRequestOutput,
+  pestoProjectListRequestOutput,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
 import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
@@ -39,7 +39,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
               <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"><a href="#">Edit project properties:</a></h2>
               {//<p class="mb-5 font-light text-gray-500 dark:text-gray-400">Static websites are now used to bootstrap lots of websites and are becoming the basis for a variety of tools that even influence both web designers and developers influence both web designers and developers.</p>
               }
-                <div class="p-2 w-full h-screen bg-gray-200 flex justify-center items-center">
+                <div class="p-2 w-full bg-gray-200 flex justify-center items-center">
                   <TextInput
                     id={`input_name_${project._id}`}
                     value={project.name}

@@ -1,6 +1,6 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 // import { getAllPestoProjectSlice, updatePestoProjectSlice, createPestoProjectSlice, deletePestoProjectSlice } from "../features/PestoApi/Projects/pestoProjectSlice"
-import pestoProjectReducer from "../features/PestoApi/Projects/pestoProjectSlice"
+import pestoProjectListReducer from "../features/PestoApi/Projects/pestoProjectSlice"
 
 export const store = configureStore({
   reducer: {
@@ -9,7 +9,7 @@ export const store = configureStore({
     // createPestoProject: createPestoProjectSlice.reducer,
     // deletePestoProject: deletePestoProjectSlice.reducer,
     // somethingElse: pestoProjectReducer,
-    pestoProject: pestoProjectReducer,
+    pestoProjectList: pestoProjectListReducer,
   },
 })
 

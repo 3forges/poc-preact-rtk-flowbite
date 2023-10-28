@@ -51,13 +51,13 @@ export type AxiosRequest = {
 
 // PESTO REQUEST STATE
 interface PestoApiRequestState {
-  value: PestoProjectApiEntity[]
+  projectList: PestoProjectApiEntity[]
   status: "completed" | "pending" | "failed" // ça loulou, ça s'appelle une
                                         // énumération anoyme
 }
 
 const initialState: PestoApiRequestState = {
-  value: [],
+  projectList: [],
   status: "completed",
 }
 
@@ -68,7 +68,7 @@ const requestPestoApiAsync = createAsyncThunk(
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(req)
       return {
-        value: data,
+        projectList: data,
         status: "pending",
       }
     } catch (error) {
@@ -139,7 +139,7 @@ export const createPestoProjectAsync = createAsyncThunk(
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(API_CREATE_PESTO_PROJECT)
       return {
-        value: data,
+        projectList: data,
         status: "pending",
       }
     } catch (error) {
@@ -157,7 +157,7 @@ export const getAllPestoProjectsAsync = createAsyncThunk(
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(API_LIST_ALL_PESTO_PROJECTS)
       return {
-        value: data,
+        projectList: data,
         status: "pending",
       }
     } catch (error) {
@@ -173,7 +173,7 @@ export const getPestoProjectByIdAsync = createAsyncThunk(
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(API_GET_PESTO_PROJECT_BY_ID)
       return {
-        value: data,
+        projectList: data,
         status: "pending",
       }
     } catch (error) {
@@ -196,7 +196,7 @@ export const updatePestoProjectAsync = createAsyncThunk(
       const { data } = await axios<PestoProjectApiEntity[]>(API_UPDATE_PROJECT_BY_ID)
       
       return {
-        value: data,
+        projectList: data,
         status: "pending",
       }
     } catch (error) {
@@ -215,7 +215,7 @@ export const deletePestoProjectByIdAsync = createAsyncThunk(
     try {
       const { data } = await axios<PestoProjectApiEntity[]>(API_DELETE_ENTITY_BY_ID)
       return {
-        value: data,
+        projectList: data,
         status: "pending",
       }
     } catch (error) {
@@ -311,7 +311,7 @@ export const pestoProjectSlice = createSlice({
       .addCase(createPestoProjectAsync.fulfilled, (state, action) => {
         state.status = "completed"
         console.log(" PESTO REDUCER [createPestoProjectAsync] fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
+        state.projectList = action.payload.projectList
       })
       .addCase(createPestoProjectAsync.rejected, (state) => {
         state.status = "failed"
@@ -328,7 +328,7 @@ export const pestoProjectSlice = createSlice({
       .addCase(getAllPestoProjectsAsync.fulfilled, (state, action) => {
         state.status = "completed"
         console.log(" PESTO REDUCER [getAllPestoProjectsAsync] fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
+        state.projectList = action.payload.projectList
       })
       .addCase(getAllPestoProjectsAsync.rejected, (state) => {
         state.status = "failed"
@@ -346,7 +346,7 @@ export const pestoProjectSlice = createSlice({
       .addCase(getPestoProjectByIdAsync.fulfilled, (state, action) => {
         state.status = "completed"
         console.log(" PESTO REDUCER [getPestoProjectByIdAsync] fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
+        state.projectList = action.payload.projectList
       })
       .addCase(getPestoProjectByIdAsync.rejected, (state) => {
         state.status = "failed"
@@ -365,7 +365,7 @@ export const pestoProjectSlice = createSlice({
       .addCase(updatePestoProjectAsync.fulfilled, (state, action) => {
         state.status = "completed"
         console.log(" PESTO REDUCER [updatePestoProjectAsync] fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
+        state.projectList = action.payload.projectList
       })
       .addCase(updatePestoProjectAsync.rejected, (state) => {
         state.status = "failed"
@@ -382,7 +382,7 @@ export const pestoProjectSlice = createSlice({
       .addCase(deletePestoProjectByIdAsync.fulfilled, (state, action) => {
         state.status = "completed"
         console.log(" PESTO REDUCER [deletePestoProjectByIdAsync] fulfilled, payload: ", action.payload)
-        state.value = action.payload.value
+        state.projectList = action.payload.projectList
       })
       .addCase(deletePestoProjectByIdAsync.rejected, (state) => {
         state.status = "failed"
@@ -413,9 +413,9 @@ export const pestoProjectSlice = createSlice({
  * @param state
  * @returns json (PestoProjectApiEntity)
  */
-// export const reques t_Output = (state: RootState) => state.getAllPestoProjects.value
+// export const reques t_Output = (state: RootState) => state.getAllPestoProjects.projectList
 
-export const pestoProjectRequestOutput = (state: RootState) => state.pestoProject.value
+export const pestoProjectListRequestOutput = (state: RootState) => state.pestoProjectList.projectList
 
 export default pestoProjectSlice.reducer
 
