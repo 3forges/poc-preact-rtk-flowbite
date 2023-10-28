@@ -1,8 +1,8 @@
 'use client';
 
 import { Avatar, Dropdown, Navbar } from 'flowbite-react';
-
 export default function NavbarWithDropdown() {
+
   return (
     <Navbar fluid rounded>
       <Navbar.Brand href="https://flowbite-react.com">
@@ -32,7 +32,7 @@ export default function NavbarWithDropdown() {
       <Navbar.Collapse>
         <Navbar.Link href="/" active>Home</Navbar.Link>
         <Navbar.Link href="/about">About</Navbar.Link>
-        <Navbar.Link href="/projects">Projects</Navbar.Link>
+        <Navbar.Link href="/projects"><a href={`/projects`} >Projects</a></Navbar.Link>
         <Navbar.Link href="/pricing">Pricing</Navbar.Link>
         <Navbar.Link href="/contact">Contact</Navbar.Link>
       </Navbar.Collapse>

@@ -1,7 +1,7 @@
-import { AnyAction, AsyncThunkAction, Dispatch, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { AnyAction, AsyncThunkAction, Dispatch, ThunkDispatch, createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { RootState } from "../../../app/store"
 import axios from "axios"
-import { useAppDispatch, useAppSelector } from "../../../app/hooks"
+import { useAppDispatch } from "../../../app/hooks"
 
 
 /**
@@ -197,8 +197,49 @@ interface DeletePestoProjectRequestState {
 /**
  * Nouvelle fonctions chirrugie JB
  */
+/**
+ * FUNCTION TO REQUEST PROJECT LIST
+ *
+ *  use: `< ... onClick={() => dispatch(RequestProjectList())}>`
+ * @returns [json] (PestoProjectApiEntity[])
+ */
+export const RequestProjectList = () => {
+  return getAllPestoProjectsAsync()
+}
+const apiUpdatePestoProjectAsync = async (project: PestoProjectApiEntity) => {
+  // the inside "thunk function"
+  API_UPDATE_PROJECT_BY_ID.url = "/" + project._id
+  API_UPDATE_PROJECT_BY_ID.data = project
+  try {
+    // make an async call in the thunk
+    const { data } = await axios<PestoProjectApiEntity>(API_UPDATE_PROJECT_BY_ID)
+    const dispatch = useAppDispatch()
+    // dispatch an action when we get the response back
+    /// await dispatch(RequestProjectList())
+    dispatch(RequestProjectList())
+    return {
+      updatedProject: data,
+      status: "completed",
+    }
+  } catch (error) {
+    console.log(` ERROR - [updatePestoProject] `, error)
+    //throw error
+    return {
+      updatedProject: {
+        name: `An error occured, your project [${project.name}] was not updated`,
+        description: `An error occured, your project [${project.name}] was not updated`,
+        git_ssh_uri: `An error occured, your project [${project.git_ssh_uri}] was not updated`
+      },
+      status: "failed",
+    }
+  }
+}
 export const updatePestoProjectAsync = createAsyncThunk(
   "updatePestoProject",
+  apiUpdatePestoProjectAsync,
+)
+export const updatePestoProjectAsync2 = createAsyncThunk(
+  "updatePestoProject2",
   async (project: PestoProjectApiEntity): Promise<UpdatePestoProjectRequestState> => {
       //
     API_UPDATE_PROJECT_BY_ID.url = "/" + project._id
@@ -270,15 +311,7 @@ export const CreateProject = (project: PestoProjectApiEntity) => {
   // return requestPestoApiAsync(API_CREATE_PESTO_PROJECT)
   return createPestoProjectAsync(project)
 }
-/**
- * FUNCTION TO REQUEST PROJECT LIST
- *
- *  use: `< ... onClick={() => dispatch(RequestProjectList())}>`
- * @returns [json] (PestoProjectApiEntity[])
- */
-export const RequestProjectList = () => {
-  return getAllPestoProjectsAsync()
-}
+
 export const RequestProjectById = (project_id: string) => {
   return getPestoProjectByIdAsync(project_id)
 }
@@ -310,13 +343,15 @@ export const DeleteProjectById = (project_id: string) => {
   //return requestPestoApiAsync(API_DELETE_ENTITY_BY_ID)
   return deletePestoProjectByIdAsync(project_id);
 }
-
+function addItem(state: any, action: any) {
+  state.push(action.payload);
+}
 export const pestoProjectSlice = createSlice({
   name: "pestoProject",
   initialState,
   reducers: {
     /* EMPTY */
-    
+    // setItem: addItem
   },
   extraReducers: (builder) => {
     /**
@@ -350,7 +385,11 @@ export const pestoProjectSlice = createSlice({
         console.log(" PESTO REDUCER [getAllPestoProjectsAsync] fulfilled, payload: ", action.payload)
         state.projectList = action.payload.projectList
         for (let index = 0; index < state.projectList.length; index++) {
-          action.payload.projectList[index] = state.projectList[index];
+          //action.payload.projectList[index] = state.projectList[index];
+          state.projectList[index].description = action.payload.projectList[index].description
+          state.projectList[index].git_ssh_uri = action.payload.projectList[index].git_ssh_uri
+          state.projectList[index].name = action.payload.projectList[index].name
+          
         }
       })
       .addCase(getAllPestoProjectsAsync.rejected, (state) => {
@@ -400,14 +439,21 @@ export const pestoProjectSlice = createSlice({
           const writableDraftElement = state.projectList[index];
           console.log(` >>> SO HERE THE writableDraftElement [${index}] : `, writableDraftElement)
           console.log(` >>> SO HERE THE writableDraftElement [${index}] PESTO PROJECTID : `, writableDraftElement._id)
-          console.log(` >>> SO HERE THE action.payload.updatedProject._id : [${action.payload.updatedProject._id}] `)
-          if (`${action.payload.updatedProject._id}` == `${writableDraftElement._id}`) {
-            indexOfUpdatedProjectInProjectListFromStore = index
-            console.log(` >>>> J'AI TROUVE LE PROJECT DS LA LISTE à l'index [${index}]`)
-            // state.projectList[index] = action.payload.updatedProject
-            // state.projectList.splice(indexOfUpdatedProjectInProjectListFromStore,1, action.payload.updatedProject) ? console.log("good") : console.log("fail")
-            break;
-          }
+          console.log(` >>> SO HERE THE action.payload -> : [${JSON.stringify(action.payload, null, 4)}] `)
+          //console.log(` >>> SO HERE THE action.payload.updatedProject._id : [${action.payload.updatedProject._id}] `)
+          ///   if (`${action.payload.updatedProject._id}` == `${writableDraftElement._id}`) {
+          ///     indexOfUpdatedProjectInProjectListFromStore = index
+          ///     console.log(` >>>> J'AI TROUVE LE PROJECT DS LA LISTE à l'index [${index}]`)
+          ///     // state.projectList[index] = action.payload.updatedProject
+          ///     // state.projectList.splice(indexOfUpdatedProjectInProjectListFromStore,1, action.payload.updatedProject) ? console.log("good") : console.log("fail")
+          ///     // pestoProjectListRequestOutput({pestoProjectList:state})[index] = action.payload.updatedProject
+          ///     // ---
+          ///     state.projectList[index].description = action.payload.updatedProject.description
+          ///     state.projectList[index].git_ssh_uri = action.payload.updatedProject.git_ssh_uri
+          ///     state.projectList[index].name = action.payload.updatedProject.name
+          ///     
+          ///     break;
+          ///   }
         }
         console.log(` >>>> [JSON.stringify(state, null, 4)] `)
         console.log(JSON.stringify(state, null, 4))
@@ -433,6 +479,7 @@ export const pestoProjectSlice = createSlice({
         state.status = "completed"
         console.log(" PESTO REDUCER [deletePestoProjectByIdAsync] fulfilled, payload: ", action.payload)
         state.projectList = [action.payload.deletedProject]
+        
       })
       .addCase(deletePestoProjectByIdAsync.rejected, (state) => {
         state.status = "failed"

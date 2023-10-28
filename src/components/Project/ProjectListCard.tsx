@@ -5,8 +5,8 @@ import {
   DeleteProjectById,
   UpdateProject,
   RequestProjectList,
-  RequestProjectById,
-  pestoProjectListRequestOutput,
+  // RequestProjectById,
+  // pestoProjectListRequestOutput,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
 import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
@@ -99,7 +99,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                       await setProjectHook(editedProject);
                       await setIsEditModeOnHook(false);
                       await dispatch(UpdateProject(editedProject))
-                      // await dispatch(RequestProjectList())
+                      await dispatch(RequestProjectList())
                       // dispatch(RequestProjectList())
                     }}
                   >

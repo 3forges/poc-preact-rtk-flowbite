@@ -40,6 +40,9 @@ export function PestoProjectUI(props: any): JSX.Element {
    /// }, [requestOutput])
   
   /* REQUEST PROJECT-LIST @FIRST LOAD */
+  /**
+   * OK LA C SUR: useEffect s'exécute après le render
+   */
   useEffect(() => {
     //(async () => {await dispatch(RequestProjectList())})()
     console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
