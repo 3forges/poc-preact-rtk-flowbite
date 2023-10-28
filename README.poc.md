@@ -45,7 +45,6 @@ EOF
 
 ```
 
-
 ## References
 
 * https://flowbite.com/docs/getting-started/react/
