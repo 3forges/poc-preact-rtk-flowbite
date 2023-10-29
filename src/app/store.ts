@@ -3,6 +3,7 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
 import pestoProjectListReducer from "../features/PestoApi/Projects/pestoProjectSlice"
 
 export const store = configureStore({
+  // middleware: mySuperDooperMiddleware,
   reducer: {
     // getAllPestoProjects: getAllPestoProjectSlice.reducer,
     // updatePestoProject: updatePestoProjectSlice.reducer,

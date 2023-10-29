@@ -32,6 +32,17 @@ interface MainLayoutProps {
     theme?: any,
 }
 
+const api = {
+  reducerPath: "c ça"
+}
+const truc = {
+  [api.reducerPath]: "ccc",
+  polling: 'juste une',
+  auth: 'connerie',
+}
+
+console.log(` truc - [${truc["c ça"]}]`)
+
 export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <FlowbiteExample1 /> }: MainLayoutProps ): JSX.Element => {
     //const [isDark, setIsDark] = useState<boolean>(false);
 

@@ -58,7 +58,7 @@ interface GetProjectsListRequestState {
                                         // énumération anoyme
 }
 
-const initialState: GetProjectsListRequestState = {
+const pestoInitialState: GetProjectsListRequestState = {
   projectList: [],
   status: "completed",
 }
@@ -348,7 +348,22 @@ function addItem(state: any, action: any) {
 }
 export const pestoProjectSlice = createSlice({
   name: "pestoProject",
-  initialState,
+  initialState: {
+    ...pestoInitialState,
+    voudrais: {
+      je: "faire",
+      truc:{
+        de: {
+          ouf: "wouaaa"
+        }
+      }
+    },
+    /**
+     * Ouuuhhhh grosse piste pour lamise à jour du state: https://redux-toolkit.js.org/rtk-query/usage/migrating-to-rtk-query#slice
+     */
+    dataByName: {} as Record<string, PestoProjectApiEntity | undefined>,
+    statusByName: {} as Record<string, GetProjectsListRequestState | undefined>,
+  },
   reducers: {
     /* EMPTY */
     // setItem: addItem
@@ -361,6 +376,10 @@ export const pestoProjectSlice = createSlice({
       .addCase(createPestoProjectAsync.pending, (state) => {
         state.status = "pending"
         console.log(" PESTO REDUCER [createPestoProjectAsync] pending...")
+        console.log(` PESTO REDUCER [createPestoProjectAsync] [${state.voudrais.je + ' /// ' + state.voudrais.truc.de.ouf }]`)
+        console.log(`${state.voudrais.je}`)
+        console.log(`${state.voudrais.truc.de.ouf}`)
+        
       })
       .addCase(createPestoProjectAsync.fulfilled, (state, action) => {
         state.status = "completed"
