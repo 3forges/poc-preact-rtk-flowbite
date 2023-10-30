@@ -41,9 +41,10 @@ const api = createApi({
       }
     }),
     projectDetail: build.query<PestoProjectApiEntity, {projectId: string}>({
-      query() {
+      query({projectId}) {
         return {
-          url: `project/${projectId}`
+          url: `pesto-project/${projectId}`,
+          method: 'GET'
         }
       }
     }),
@@ -53,7 +54,7 @@ const api = createApi({
 const { useProjectListQuery, useProjectDetailQuery } = api
 
 function ProjectList({ onProjectSelected }: { onProjectSelected: (projectId: string) => void}): JSX.Element {
-  const { data, isLoading, isError, isUninitialized } = useProjectListQuery("653c1c7006dea22271f9ce43")
+  const { data, isLoading, isError, isUninitialized } = useProjectListQuery()
 
   if (isLoading || isUninitialized) {
     return <div>loading ...</div>
@@ -78,7 +79,7 @@ function ProjectList({ onProjectSelected }: { onProjectSelected: (projectId: str
 }
 
 function ProjectDetail( {projectId}: {projectId : string} ): JSX.Element {
-  const { isLoading, isError, isUninitialized } = useProjectDetailQuery({
+  const { data, isLoading, isError, isUninitialized } = useProjectDetailQuery({
     projectId: projectId
   })
 
@@ -94,7 +95,7 @@ function ProjectDetail( {projectId}: {projectId : string} ): JSX.Element {
       <div>{isLoading}</div>
       <ol>
         <li key={projectId}>
-          <div>projectId</div>
+          <div>{data}</div>
         </li>
       </ol>
     </article>
