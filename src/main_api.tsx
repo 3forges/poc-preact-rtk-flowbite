@@ -1,6 +1,5 @@
 import { render } from 'preact'
 import {createApi, ApiProvider, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-import {current} from "@reduxjs/toolkit"
 import './index.css'
 
 import { useState } from "preact/hooks";
@@ -39,15 +38,21 @@ const api = createApi({
         }
       }
     }),
-    projectDetail: build.query<PestoProjectApiEntity, {projectId: string}>({
-      query: ({projectId}) => `pesto-project/${projectId}`
+    projectDetail: build.query<PestoProjectApiEntity, {
+      _id?: string, 
+      name?: string
+      git_ssh_uri?: string
+      description?: string
+      createdAt?: string
+      __v?: number}>({
+      query: ({_id}) => { console.log("I am the query Fn ",_id); return ({url: `pesto-project/${_id}`})}
     }),
   }),
 })
 
 const { useProjectListQuery, useProjectDetailQuery } = api
 
-function ProjectList({ onProjectSelected }: { onProjectSelected: (projectId: string) => void}): JSX.Element {
+function ProjectList({ onProjectSelected }: { onProjectSelected: (_id: string) => void}): JSX.Element {
   const { data, isLoading, isError, isUninitialized } = useProjectListQuery()
 
   if (isLoading || isUninitialized) {
@@ -72,24 +77,24 @@ function ProjectList({ onProjectSelected }: { onProjectSelected: (projectId: str
   )
 }
 
-function ProjectDetail( {projectId}: {projectId : string} ): JSX.Element {
+function ProjectDetail( {_id}: {_id : string} ): JSX.Element {
   const { data, isLoading, isError, isUninitialized } = useProjectDetailQuery({
-    projectId: projectId
+    _id: _id,
   })
-/*
+
   if (isLoading || isUninitialized) {
     return <div>loading ...</div>
   }
   if (isError) {
     return <div>something went wrong !</div>
   }
-*/
+
   return (
     <article>
       <div>{isLoading}</div>
       <div>{data}</div>
       <ol>
-        <li key={projectId}>
+        <li key={_id}>
           <div>{data}</div>
         </li>
       </ol>
@@ -105,7 +110,7 @@ function App() {
     <div> Projects List: {selectedProject}</div>
     {selectedProject ? (
       <>
-        <ProjectDetail projectId={selectedProject} />
+        <ProjectDetail _id={selectedProject} />
         <button onClick={() => selectProject(undefined)}> back </button>
       </>
     ):<></>}
