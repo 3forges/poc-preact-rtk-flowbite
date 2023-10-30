@@ -14,12 +14,11 @@ const API_HOST = "localhost"
 const API_BASE_URL = `http://${API_HOST}:${API_PORT}/`
 
 interface PestoProjectApiEntity {
-  _id?: string
+  _id: string
   name: string
   git_ssh_uri: string
   description: string
   createdAt?: string
-  __v?: number
 }
 
 const api = createApi({
@@ -44,7 +43,7 @@ const api = createApi({
       git_ssh_uri?: string
       description?: string
       createdAt?: string
-      __v?: number}>({
+    }>({
       query: ({_id}) => { console.log("I am the query Fn ",_id); return ({url: `pesto-project/${_id}`})}
     }),
   }),
@@ -52,7 +51,31 @@ const api = createApi({
 
 const { useProjectListQuery, useProjectDetailQuery } = api
 
-function ProjectList({ onProjectSelected }: { onProjectSelected: (_id: string) => void}): JSX.Element {
+function ProjectDetail( {id}: {id : string} ): JSX.Element {
+  const { data, isLoading, isError, isUninitialized } = useProjectDetailQuery({
+    _id: id,
+  })
+/*
+  if (isLoading || isUninitialized) {
+    return <div>loading ...</div>
+  }
+  if (isError) {
+    return <div>something went wrong !</div>
+  }
+*/
+  return (
+    <article>
+      <div>{JSON.stringify(data)}</div>
+      <ol>
+        <li key={id}>
+          <div>{JSON.stringify(data)}</div>
+        </li>
+      </ol>
+    </article>
+  )
+}
+
+function ProjectList(): JSX.Element {
   const { data, isLoading, isError, isUninitialized } = useProjectListQuery()
 
   if (isLoading || isUninitialized) {
@@ -67,9 +90,9 @@ function ProjectList({ onProjectSelected }: { onProjectSelected: (_id: string) =
       <div>{isLoading}</div>
       <ol>
       {data.map((project: PestoProjectApiEntity)=>(
-        <li key={project._id}>
+        <li>
           {project._id}
-          <button onClick={ () => onProjectSelected(project._id) } >view</button>
+          <ProjectDetail id={project._id} />
         </li>
       ))}
       </ol>
@@ -77,44 +100,13 @@ function ProjectList({ onProjectSelected }: { onProjectSelected: (_id: string) =
   )
 }
 
-function ProjectDetail( {_id}: {_id : string} ): JSX.Element {
-  const { data, isLoading, isError, isUninitialized } = useProjectDetailQuery({
-    _id: _id,
-  })
-
-  if (isLoading || isUninitialized) {
-    return <div>loading ...</div>
-  }
-  if (isError) {
-    return <div>something went wrong !</div>
-  }
-
-  return (
-    <article>
-      <div>{isLoading}</div>
-      <div>{data}</div>
-      <ol>
-        <li key={_id}>
-          <div>{data}</div>
-        </li>
-      </ol>
-    </article>
-  )
-}
-
 function App() {
-  const [selectedProject, selectProject] = useState<string | undefined>(undefined)
+  //const [selectedProject, selectProject] = useState<string>()
   
   return (
     <>
-    <div> Projects List: {selectedProject}</div>
-    {selectedProject ? (
-      <>
-        <ProjectDetail _id={selectedProject} />
-        <button onClick={() => selectProject(undefined)}> back </button>
-      </>
-    ):<></>}
-      <ProjectList onProjectSelected={selectProject} />
+    <div> Projects List: </div>
+    <ProjectList />
     </>
   )
 }
