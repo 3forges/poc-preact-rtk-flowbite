@@ -1,7 +1,6 @@
 import { render } from 'preact'
-//import { App } from './app.js'
 import {createApi, ApiProvider, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
-//import ReactDom from "react-dom/client"
+import {current} from "@reduxjs/toolkit"
 import './index.css'
 
 import { useState } from "preact/hooks";
@@ -16,7 +15,7 @@ const API_HOST = "localhost"
 const API_BASE_URL = `http://${API_HOST}:${API_PORT}/`
 
 interface PestoProjectApiEntity {
-  _id?: number
+  _id?: string
   name: string
   git_ssh_uri: string
   description: string
@@ -41,12 +40,7 @@ const api = createApi({
       }
     }),
     projectDetail: build.query<PestoProjectApiEntity, {projectId: string}>({
-      query({projectId}) {
-        return {
-          url: `pesto-project/${projectId}`,
-          method: 'GET'
-        }
-      }
+      query: ({projectId}) => `pesto-project/${projectId}`
     }),
   }),
 })
@@ -67,7 +61,7 @@ function ProjectList({ onProjectSelected }: { onProjectSelected: (projectId: str
     <article>
       <div>{isLoading}</div>
       <ol>
-      {data.map((project: any)=>(
+      {data.map((project: PestoProjectApiEntity)=>(
         <li key={project._id}>
           {project._id}
           <button onClick={ () => onProjectSelected(project._id) } >view</button>
@@ -82,17 +76,18 @@ function ProjectDetail( {projectId}: {projectId : string} ): JSX.Element {
   const { data, isLoading, isError, isUninitialized } = useProjectDetailQuery({
     projectId: projectId
   })
-
+/*
   if (isLoading || isUninitialized) {
     return <div>loading ...</div>
   }
   if (isError) {
     return <div>something went wrong !</div>
   }
-
+*/
   return (
     <article>
       <div>{isLoading}</div>
+      <div>{data}</div>
       <ol>
         <li key={projectId}>
           <div>{data}</div>
@@ -107,7 +102,7 @@ function App() {
   
   return (
     <>
-    <div> Projects List: </div>
+    <div> Projects List: {selectedProject}</div>
     {selectedProject ? (
       <>
         <ProjectDetail projectId={selectedProject} />
@@ -115,10 +110,10 @@ function App() {
       </>
     ):<></>}
       <ProjectList onProjectSelected={selectProject} />
-
     </>
   )
 }
+
 
 // render(<App />, document.getElementById('app')!)
 render(
