@@ -27,7 +27,16 @@ interface ProjectCardEditModeOnProps {
 }
 
 export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProjectHook }: ProjectCardEditModeOnProps): JSX.Element {
-
+  const [
+    updateProject,
+    {
+      data: updatedProject,
+      isLoading: updatingProject,
+      /* isUninitialized,*/
+      isSuccess
+    }
+  ] = useUpdateProjectMutation();
+  
   return (
       <>
 
@@ -100,22 +109,35 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
 
                       await setProjectHook(editedProject);
                       await setIsEditModeOnHook(false);
-                      
-                      const {
-                        //data: updatedProjectResponseData,
-                        //isError: updatedProjectResponseIsError,
-                        //isFetching: updatedProjectResponseIsFetching,
-                        //isLoading: updatedProjectResponseIsLoading,
-                        //isSuccess: updatedProjectResponseIsSuccess,
-                        //isUninitialized: updatedProjectResponseIsUninitialized,
-                      } = useUpdateProjectMutation({
+                      const updateMutationHandler = async (project /*{ _id}*/:          { 
+                        _id?: string | undefined;
+                        name?: string | undefined;
+                        git_ssh_uri?: string | undefined;
+                        description?: string | undefined;
+                        createdAt?: string | undefined;
+                       }): Promise<         { 
+                        _id?: string | undefined;
+                        name?: string | undefined;
+                        git_ssh_uri?: string | undefined;
+                        description?: string | undefined;
+                        createdAt?: string | undefined;
+                       }> => {
+                        console.log(``)
+                        return project;
+                      };
 
-                        //_id: `${editedProject._id}`,
-                        // name: editedProject.name,
-                        // git_ssh_uri: editedProject.git_ssh_uri,
-                        // description: editedProject.description,
-                        // createdAt: editedProject.createdAt,
+                      await updateProject({
+                        _id: `${editedProject._id}`,
+                        name: editedProject.name,
+                        description: editedProject.description,
+                        git_ssh_uri: editedProject.git_ssh_uri,
+                        createdAt: editedProject.createdAt,
                       })
+                      // - // - //  const updateHandler = () => {
+                      // - // - //      updateStudent({
+                      // - // - //      });
+                      // - // - //      props.onCancel();
+                      // - // - //  };
                       // const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
                       
 
@@ -139,10 +161,32 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                     }}
                   >
                     <LuSaveAll/>
+                    
                     Update
+
+                    {updatingProject && (
+                        <Spinner aria-label="Updating project..." />
+                    ) || (
+                      <span></span>
+                    )}
+
+                    {isSuccess && (
+                      <span>
+                        {// 
+                        `${JSON.stringify(updatedProject, null, 4)}`
+                        }
+                      </span>
+                    ) || (
+                      <span></span>
+                    )}
+
+
+                
+                    
+                    
+                    
+
                   </Button>
-                  {// The response from API below:
-                  }
               </div>
           </article>
 

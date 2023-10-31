@@ -75,6 +75,22 @@ export const pestoApi = createApi({
     /**
      * Updating a Pesto Project (should be a `PestoContentType`)
      */
+    // // - //    updateStudent: build.mutation({
+    // // - //        query(stu) {
+    // // - //            return {
+    // // - //                url: `students/${stu.id}`,
+    // // - //                method: 'put',
+    // // - //                body: {data: stu.attributes}
+    // // - //            };
+    // // - //        },
+    // // - //        invalidatesTags: ((result, error, stu) =>
+    // // - //            [{type: 'student', id: stu.id}, {type: 'student', id: 'LIST'}])
+    // // - //    }),
+
+    /**
+     * see those ref examples found on github : 
+     * -> https://github.com/csxiaoyaojianxian/JavaScriptStudy/blob/d1fc42736b41e05139bc1bd8b4c6adf0842dac11/12-%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/03-React/react18/16-redux/03-RTKQ(TODO)/store/studentApi.js#L59C44-L59C44
+     */
     updateProject: build.mutation<
     PestoProjectApiEntity,
     {
@@ -84,29 +100,41 @@ export const pestoApi = createApi({
       description?: string;
       createdAt?: string;
     }>({
-      query: (    {
+      query: ({
         _id,
         name,
         git_ssh_uri,
         description,
         createdAt,
-      }) => ({
-        // url: '/posts',
-        // url: `pesto-project/${payload._id}`,
-        url: `pesto-project`,
-        method: 'PUT',
-        body: {
-          _id: `${_id}` ,
-          name: `${name}` ,
-          git_ssh_uri: `${git_ssh_uri}` ,
-          description: `${description}` ,
-          createdAt: `${createdAt}` ,
-        },
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json; charset=UTF-8',
-        },
-      }),
+      }) => {
+        console.log(` RTK QUERY - I am the [updateProject]`);
+        console.log({
+          _id,
+          name,
+          git_ssh_uri,
+          description,
+          createdAt,
+        })
+        return ({
+          // url: '/posts',
+          // url: `pesto-project/${payload._id}`,
+          url: `pesto-project/${_id}`,
+          method: 'PUT',
+          body: {
+            data: {
+              _id: `${_id}` ,
+              name: `${name}` ,
+              git_ssh_uri: `${git_ssh_uri}` ,
+              description: `${description}` ,
+              createdAt: `${createdAt}` ,
+            }
+          },
+          headers: {
+            'Content-type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json; charset=UTF-8',
+          },
+        })
+      },
       /*
       providesTags: (result: { id: any; }[]) =>
       result
@@ -117,7 +145,37 @@ export const pestoApi = createApi({
           ]
         : [{ type: 'PestoProjectApiEntity', id: 'LIST' }],
       */
-      invalidatesTags: ['PestoProjectApiEntity'],
+      invalidatesTags: ((result, error, {
+        _id,
+        name,
+        git_ssh_uri,
+        description,
+        createdAt,
+      }) => 
+        {
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags] Hook `)
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [result] = [${JSON.stringify(result, null, 4)}] `)
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [error] = [${JSON.stringify(error, null, 4)}] `)
+
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [_id] = [${_id}] `)
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [_id] = [${name}] `)
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [_id] = [${git_ssh_uri}] `)
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [_id] = [${description}] `)
+          console.log(` RTK QUERY - I am the [updateProject] - [invalidatesTags]  CHECK VALUE OF [_id] = [${createdAt}] `)
+          
+          
+          return [
+            {type: 'PestoProjectApiEntity', id: `${_id}`},
+            //{type: 'PestoProjectApiEntity', id: `${name}`},
+            //{type: 'PestoProjectApiEntity', id: `${git_ssh_uri}`},
+            //{type: 'PestoProjectApiEntity', id: `${description}`},
+            //{type: 'PestoProjectApiEntity', id: `${createdAt}`},
+          ]
+        }
+      )
+      // invalidatesTags: ((result, error, stu) =>
+      //   [{type: 'PestoProjectApiEntity', id: `${_id}`}, {type: 'PestoProjectApiEntity', id: 'LIST'}])
+      // invalidatesTags: ['PestoProjectApiEntity'],
       
     }),
     updateProject2failed: build.query<
@@ -174,3 +232,10 @@ export const pestoApi = createApi({
     }),
   }),
 });
+
+export const {
+  useCreateNewProjectQuery,
+  useUpdateProjectMutation,
+  useProjectListQuery,
+  useDeleteProjectQuery,
+} = pestoApi;

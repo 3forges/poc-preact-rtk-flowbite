@@ -35,15 +35,81 @@ Type
 # --- # --- # --- # --- # --- # --- # --- # --- #
 # --- # --- # --- # --- # --- # --- # --- # --- #
 
+ 'Promise<PestoProjectApiEntity>' 
+ 
+ has no properties in common with
+ type 'UseMutationStateOptions<MutationDefinition<
+         { 
+          _id?: string | undefined;
+          name?: string | undefined;
+          git_ssh_uri?: string | undefined;
+          description?: string | undefined;
+          createdAt?: string | undefined;
+         },
+         BaseQueryFn<
+           string | FetchArgs,
+           unknown,
+           FetchBaseQueryError,
+           {},
+           FetchBaseQueryMeta>,
+           "PestoProjectApiEntity",
 
-  Type '(getDefaultMiddleware: CurriedGetDefaultMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>) => MiddlewareArray<...>[]' is not assignable to type '(getDefaultMiddleware: CurriedGetDefaultMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>) => Middlewares<...>'.
-    Type 'MiddlewareArray<[ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>, Middleware<...>]>[]' is not assignable to type 'Middlewares<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>'.
-      Type 'MiddlewareArray<[ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>, Middleware<...>]>' is not assignable to type 'Middleware<{}, { pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, Dispatch<AnyAction>>'.
-        Type 'MiddlewareArray<[ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>, Middleware<...>]>' provides no match for the signature '(api: MiddlewareAPI<Dispatch<AnyAction>, { pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>): (next: Dispatch<...>) => (action: any) => any'.ts(2322)
-configureStore.d.ts(30, 5): The expected type comes from property 'middleware' which is declared here on type 'ConfigureStoreOptions<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction, Middlewares<{ pestoProjectList: { ...; }; }>, [...]>'
-(property) ConfigureStoreOptions<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction, [ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>], [...]>.middleware?: [ThunkMiddleware<{
-    pestoProjectList: {
-        projectList: PestoProjectApiEntity[];
-        status: "completed" | "pending" | "failed";
-    };
-}, AnyAction>] | ((getDefaultMiddleware: CurriedGetDefaultMiddleware<...>) => [...]) | undefined
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export EG_PAYLOAD='{
+    "_id": "6526bb5cf88cd05417311b33",
+    "name": "autrement8945",
+    "git_ssh_uri": "git@github.com:fundefinedjskh/rqfxy",
+    "description": "msrnjusm juykm yloyrjjli",
+    "createdAt": "2023-10-11T15:12:28.604Z"
+}'
+export PRJ_ID="6526bb5cf88cd05417311b33"
+curl -iv \
+  -X PUT \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d "${EG_PAYLOAD}" \
+  http://localhost:3000/pesto-project/${PRJ_ID} | tail -n 1 | jq .
+
+curl -iv   -X GET   -H 'Content-Type: application/json'   -H 'Accept: application/json' http://localhost:3000/pesto-project/${PRJ_ID} | tail -n 1 | jq .
+
+export EG_PAYLOAD='{                                                                               "_id": "6526bb5cf88cd05417311b33",
+    "name": "autrement44544",
+    "git_ssh_uri": "git@github.com:fundefinedjskh/rqfxy",
+    "description": "msrnjusm juykm yloyrjjli",
+    "createdAt": "2023-10-11T15:12:28.604Z"
+}'
+export PRJ_ID="6526bb5cf88cd05417311b33"
+curl -iv \
+  -X PUT \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d "${EG_PAYLOAD}" \
+  http://localhost:3000/pesto-project/${PRJ_ID} | tail -n 1 | jq .
+
+curl -iv   -X GET   -H 'Content-Type: application/json'   -H 'Accept: application/json' http://localhost:3000/pesto-project/${PRJ_ID} | tail -n 1 | jq .
+
+
+
