@@ -121,6 +121,13 @@ export const pestoApi = createApi({
           url: `pesto-project/${_id}`,
           method: 'PUT',
           body: {
+            _id: `${_id}` ,
+            name: `${name}` ,
+            git_ssh_uri: `${git_ssh_uri}` ,
+            description: `${description}` ,
+            createdAt: `${createdAt}` ,
+          }/*,
+          body: {
             data: {
               _id: `${_id}` ,
               name: `${name}` ,
@@ -128,7 +135,7 @@ export const pestoApi = createApi({
               description: `${description}` ,
               createdAt: `${createdAt}` ,
             }
-          },
+          }*/,
           headers: {
             'Content-type': 'application/json; charset=UTF-8',
             'Accept': 'application/json; charset=UTF-8',
