@@ -3,7 +3,7 @@ import { useState } from "preact/hooks"
 import {
   PestoProjectApiEntity,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
-import { Dropdown, TextInput } from "flowbite-react"
+import { Dropdown, Spinner, TextInput, Alert } from "flowbite-react"
 import { pestoApi } from "../app/api"
 import { ContentTypeCard } from "../components/ContentType/ContentTypeCard"
 const { useProjectListQuery } = pestoApi
@@ -29,10 +29,16 @@ export function PestoContentTypeList(): JSX.Element {
   const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
 
   if (isLoading || isUninitialized) {
-    return <div>loading ...</div>
+    return (<div> 
+              <Alert><Spinner aria-label="Loading..." className={`rounded bg-cyan-300 text-pink-300 p-1 ml-2 mr-2`} />Loading... Alert !</Alert>
+            </div>
+           )
+    
   }
   if (isError) {
-    return <div>something went wrong !</div>
+    return (<div> 
+            <Alert>something went wrong !</Alert>
+           </div>)
   }
 
   /* FILTERS  */

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "preact/hooks";
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useState } from "preact/hooks";
+import { useAppDispatch } from "../../app/hooks"
 import {
   PestoProjectApiEntity,
   DeleteProjectById,

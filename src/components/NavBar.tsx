@@ -30,12 +30,10 @@ export default function NavbarWithDropdown() {
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
-        <Navbar.Link href="/" active>Home</Navbar.Link>
-        <Navbar.Link href="/about">About</Navbar.Link>
-        <Navbar.Link href="/projects"><a href={`/projects`} >Projects</a></Navbar.Link>
-        <Navbar.Link href="/content-types"><a href={`/content-types`} >Content Types</a></Navbar.Link>
-        {//<Navbar.Link href="/content-types"><a href={`/content-types`} >Content Types</a></Navbar.Link>
-        }
+        <Navbar.Link href="/" >Home</Navbar.Link>
+        <Navbar.Link href="/about" active>About</Navbar.Link>
+        <Navbar.Link href="/projects">Projects</Navbar.Link>
+        <Navbar.Link href="/content-types">Content Types</Navbar.Link>
         <Navbar.Link href="/pricing">Pricing</Navbar.Link>
         <Navbar.Link href="/contact">Contact</Navbar.Link>
       </Navbar.Collapse>

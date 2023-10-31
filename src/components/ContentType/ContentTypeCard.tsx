@@ -1,12 +1,6 @@
-import { useEffect, useState } from "preact/hooks";
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useState } from "preact/hooks";
 import {
   PestoProjectApiEntity,
-  DeleteProjectById,
-  UpdateProject,
-  RequestProjectList,
-  // RequestProjectById,
-  // pestoProjectListRequestOutput,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
 import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
@@ -36,7 +30,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
       isSuccess
     }
   ] = useUpdateProjectMutation();
-  
+
   return (
       <>
 
@@ -109,23 +103,6 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
 
                       await setProjectHook(editedProject);
                       await setIsEditModeOnHook(false);
-                      const updateMutationHandler = async (project /*{ _id}*/:          { 
-                        _id?: string | undefined;
-                        name?: string | undefined;
-                        git_ssh_uri?: string | undefined;
-                        description?: string | undefined;
-                        createdAt?: string | undefined;
-                       }): Promise<         { 
-                        _id?: string | undefined;
-                        name?: string | undefined;
-                        git_ssh_uri?: string | undefined;
-                        description?: string | undefined;
-                        createdAt?: string | undefined;
-                       }> => {
-                        console.log(``)
-                        return project;
-                      };
-
                       await updateProject({
                         _id: `${editedProject._id}`,
                         name: editedProject.name,
@@ -133,13 +110,6 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                         git_ssh_uri: editedProject.git_ssh_uri,
                         createdAt: editedProject.createdAt,
                       })
-                      // - // - //  const updateHandler = () => {
-                      // - // - //      updateStudent({
-                      // - // - //      });
-                      // - // - //      props.onCancel();
-                      // - // - //  };
-                      // const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
-                      
 
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
@@ -156,8 +126,6 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
 
-                      // await dispatch(UpdateProject(editedProject))
-                      // await dispatch(RequestProjectList())
                     }}
                   >
                     <LuSaveAll/>
