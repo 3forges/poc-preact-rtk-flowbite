@@ -3,7 +3,6 @@ import { useState } from "preact/hooks"
 import {
   PestoProjectApiEntity,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
-import { ProjectListCard } from "../components/Project/ProjectListCard"
 import { Dropdown, TextInput } from "flowbite-react"
 import { pestoApi } from "../app/api"
 import { ContentTypeCard } from "../components/ContentType/ContentTypeCard"
@@ -26,13 +25,8 @@ interface Filter {
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
 export function PestoContentTypeList(): JSX.Element {
-  // console.dir(props)
-  // const dispatch = useAppDispatch()
-  // let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectListRequestOutput)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-
   const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
-
 
   if (isLoading || isUninitialized) {
     return <div>loading ...</div>
@@ -41,28 +35,6 @@ export function PestoContentTypeList(): JSX.Element {
     return <div>something went wrong !</div>
   }
 
-
-
-  // const [projectList, setProjectList] = useState<PestoProjectApiEntity[]>(requestOutput)
-  // setProjectList([...requestOutput])
-  // dispatch(RequestProjectList())
-  /* INITIALISE editionDisplay Array with default "none" */
-  
-   /// useEffect(() => {
-   ///   // dispatch(RequestProjectList())
-   ///   console.log(`Appel du useEffect sur [requestOutput], le fameux app selector`)
-   /// }, [requestOutput])
-  
-  /* REQUEST PROJECT-LIST @FIRST LOAD */
-  /**
-   * OK LA C SUR: useEffect s'exécute après le render
-   */
-  // // useEffect(() => {
-  // //   //(async () => {await dispatch(RequestProjectList())})()
-  // //   console.log(` [PestoContentTypeList] Appel USE EFFECT [dispatch(RequestProjectList())]`)
-  // //   dispatch(RequestProjectList())
-  // // }, [dispatch])
-  
   /* FILTERS  */
   const filters: Filter[] = [
     {
@@ -157,10 +129,6 @@ export function PestoContentTypeList(): JSX.Element {
             SetFilter({ target: filter.target, value: e.target.value })
           }
         />
-        {/**
-          *  <Button type="submit" onClick={() => dispatch(RequestProjectList())}>Filter</Button>
-          **/
-        }
         
       </div>
       {/* ----------------------PAGINATION------------------- */}

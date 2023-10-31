@@ -1,12 +1,7 @@
-import { useEffect } from "preact/hooks"
-import { useAppDispatch, useAppSelector } from "../app/hooks"
 import {
   // RequestProjectList,
   PestoProjectApiEntity,
-  pestoProjectListRequestOutput,
-  RequestProjectById,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
-import { ProjectListCard } from "../components/Project/ProjectListCard"
 import { FunctionalComponent } from 'preact'
 import { pestoApi } from "../app/api"
 import { Spinner } from "flowbite-react"
@@ -51,17 +46,6 @@ export const PestoContentTypeDetail: FunctionalComponent<PestoContentTypeDetailP
   } = useProjectDetailQuery({
     _id: `${project_id}`,
   });
-
-  
-  // const [projectList, setProjectList] = useState<PestoProjectApiEntity[]>(requestOutput)
-  // setProjectList([...requestOutput])
-  // dispatch(RequestProjectList())
-  /* INITIALISE editionDisplay Array with default "none" */
-  
-   /// useEffect(() => {
-   ///   // dispatch(RequestProjectList())
-   ///   console.log(`Appel du useEffect sur [requestOutput], le fameux app selector`)
-   /// }, [requestOutput])
   
   // const fetchedProject = await getProjectFromId(`${project_id}`);
 

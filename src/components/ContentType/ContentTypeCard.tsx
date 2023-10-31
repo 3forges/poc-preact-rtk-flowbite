@@ -12,7 +12,7 @@ import { Button, TextInput, Card } from "flowbite-react"
 import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
 import { pestoApi } from "../../app/api"
 import { Spinner } from "flowbite-react"
-const { useUpdateProjectQuery, useDeleteProjectQuery } = pestoApi
+const { useUpdateProjectMutation, useDeleteProjectQuery } = pestoApi
 
 
 
@@ -27,9 +27,6 @@ interface ProjectCardEditModeOnProps {
 }
 
 export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProjectHook }: ProjectCardEditModeOnProps): JSX.Element {
-  function useProjectListQuery() {
-    throw new Error("Function not implemented.");
-  }
 
   return (
       <>
@@ -105,31 +102,33 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
                       await setIsEditModeOnHook(false);
                       
                       const {
-                        data: updatedProjectResponseData,
-                        isError: updatedProjectResponseIsError,
-                        isFetching: updatedProjectResponseIsFetching,
-                        isLoading: updatedProjectResponseIsLoading,
-                        isSuccess: updatedProjectResponseIsSuccess,
-                        isUninitialized: updatedProjectResponseIsUninitialized,
-                      } = useUpdateProjectQuery({
-                        _id: `${editedProject._id}`,
-                        name: editedProject.name,
-                        description: editedProject.description,
-                        git_ssh_uri: editedProject.git_ssh_uri,
-                        createdAt: editedProject.createdAt,
+                        //data: updatedProjectResponseData,
+                        //isError: updatedProjectResponseIsError,
+                        //isFetching: updatedProjectResponseIsFetching,
+                        //isLoading: updatedProjectResponseIsLoading,
+                        //isSuccess: updatedProjectResponseIsSuccess,
+                        //isUninitialized: updatedProjectResponseIsUninitialized,
+                      } = useUpdateProjectMutation({
+
+                        //_id: `${editedProject._id}`,
+                        // name: editedProject.name,
+                        // git_ssh_uri: editedProject.git_ssh_uri,
+                        // description: editedProject.description,
+                        // createdAt: editedProject.createdAt,
                       })
                       // const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
-                      useProjectListQuery()
+                      
 
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
-                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectQuery] - updatedProjectResponseData = [${JSON.stringify(updatedProjectResponseData, null, 4)}]`)
-                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectQuery] - updatedProjectResponseIsError = [${JSON.stringify(updatedProjectResponseIsError, null, 4)}]`)
-                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectQuery] - updatedProjectResponseIsFetching = [${JSON.stringify(updatedProjectResponseIsFetching, null, 4)}]`)
-                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectQuery] - updatedProjectResponseIsLoading = [${JSON.stringify(updatedProjectResponseIsLoading, null, 4)}]`)
-                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectQuery] - updatedProjectResponseIsSuccess = [${JSON.stringify(updatedProjectResponseIsSuccess, null, 4)}]`)
-                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectQuery] - updatedProjectResponseIsUninitialized = [${JSON.stringify(updatedProjectResponseIsUninitialized, null, 4)}]`)
+                      console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - !`)
+                      // console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - updatedProjectResponseData = [${JSON.stringify(updatedProjectResponseData, null, 4)}]`)
+                      // console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - updatedProjectResponseIsError = [${JSON.stringify(updatedProjectResponseIsError, null, 4)}]`)
+                      // console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - updatedProjectResponseIsFetching = [${JSON.stringify(updatedProjectResponseIsFetching, null, 4)}]`)
+                      // console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - updatedProjectResponseIsLoading = [${JSON.stringify(updatedProjectResponseIsLoading, null, 4)}]`)
+                      // console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - updatedProjectResponseIsSuccess = [${JSON.stringify(updatedProjectResponseIsSuccess, null, 4)}]`)
+                      // console.log(` REDUX RTK - dans [ProjectCardEditModeOn] - APRES[useUpdateProjectMutation] - updatedProjectResponseIsUninitialized = [${JSON.stringify(updatedProjectResponseIsUninitialized, null, 4)}]`)
                       
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)
                       console.log(` # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- # --- `)

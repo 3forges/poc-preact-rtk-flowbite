@@ -19,6 +19,7 @@ export const pestoApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
   }),
+  tagTypes: ['PestoProjectApiEntity'],
   endpoints: (build) => ({
     createNewProject: build.query<
       PestoProjectApiEntity[],
@@ -71,8 +72,55 @@ export const pestoApi = createApi({
         return { url: `pesto-project/${_id}` };
       },
     }),
-    
-    updateProject: build.query<
+    /**
+     * Updating a Pesto Project (should be a `PestoContentType`)
+     */
+    updateProject: build.mutation<
+    PestoProjectApiEntity,
+    {
+      _id?: string;
+      name?: string;
+      git_ssh_uri?: string;
+      description?: string;
+      createdAt?: string;
+    }>({
+      query: (    {
+        _id,
+        name,
+        git_ssh_uri,
+        description,
+        createdAt,
+      }) => ({
+        // url: '/posts',
+        // url: `pesto-project/${payload._id}`,
+        url: `pesto-project`,
+        method: 'PUT',
+        body: {
+          _id: `${_id}` ,
+          name: `${name}` ,
+          git_ssh_uri: `${git_ssh_uri}` ,
+          description: `${description}` ,
+          createdAt: `${createdAt}` ,
+        },
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8',
+        },
+      }),
+      /*
+      providesTags: (result: { id: any; }[]) =>
+      result
+        ? [
+          ///
+            ...result.map((value: { id: any; }, index: number, array: { id: any; }[]) => ({ type: 'PestoProjectApiEntity' as const, value })),
+            { type: 'PestoProjectApiEntity', id: 'LIST' },
+          ]
+        : [{ type: 'PestoProjectApiEntity', id: 'LIST' }],
+      */
+      invalidatesTags: ['PestoProjectApiEntity'],
+      
+    }),
+    updateProject2failed: build.query<
       PestoProjectApiEntity[],
       {
         _id?: string;
