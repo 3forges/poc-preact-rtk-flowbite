@@ -9,9 +9,9 @@ import { useAppDispatch } from "../../../app/hooks"
  * https://stackoverflow.com/questions/63516716/redux-toolkit-is-it-possible-to-dispatch-other-actions-from-the-same-slice-in-o
  * ---------------------------------------------------------
  **/
-const API_PORT = "3000"
-const API_HOST = "localhost"
-const API_BASE_URL = `http://${API_HOST}:${API_PORT}`
+const PESTO_API_PORT = "3000"
+const PESTO_API_HOST = "localhost"
+const API_BASE_URL = `http://${PESTO_API_HOST}:${PESTO_API_PORT}`
 
 // TYPES POUR LA REQUETE AXIOS
 type ApiHeader = {
@@ -35,7 +35,7 @@ export enum methods { // STRICT METHODS
 }
 // PESTO DATA TYPES
 export type PestoProjectApiEntity = {
-  _id?: number
+  _id: number
   name: string
   git_ssh_uri: string
   description: string
@@ -54,12 +54,14 @@ export type AxiosRequest = {
 // PESTO REQUEST STATE
 interface GetProjectsListRequestState {
   projectList: PestoProjectApiEntity[]
+  // pestoProjectList : {projectList: PestoProjectApiEntity[]}, // PestoProjectApiEntity
   status: "completed" | "pending" | "failed" // ça loulou, ça s'appelle une
                                         // énumération anoyme
 }
 
 const pestoInitialState: GetProjectsListRequestState = {
   projectList: [],
+  // pestoProjectList : {projectList: []}, // PestoProjectApiEntity
   status: "completed",
 }
 
@@ -135,6 +137,7 @@ export const createPestoProjectAsync = createAsyncThunk(
       //throw error
       return {
         createdProject: {
+          _id: 0,
           name: `An error occured, your project [${project}] wast not created`,
           description: `An error occured, your project [${project}] wast not created`,
           git_ssh_uri: `An error occured, your project [${project}] wast not created`
@@ -256,6 +259,7 @@ export const updatePestoProjectAsync2 = createAsyncThunk(
       //throw error
       return {
         updatedProject: {
+          _id: 0,
           name: `An error occured, your project [${project}] wast not updated`,
           description: `An error occured, your project [${project}] wast not updated`,
           git_ssh_uri: `An error occured, your project [${project}] wast not updated`
@@ -343,11 +347,13 @@ export const DeleteProjectById = (project_id: string) => {
   //return requestPestoApiAsync(API_DELETE_ENTITY_BY_ID)
   return deletePestoProjectByIdAsync(project_id);
 }
-function addItem(state: any, action: any) {
-  state.push(action.payload);
-}
+// function addItem(state: any, action: any) {
+//   state.push(action.payload);
+// }
 export const pestoProjectSlice = createSlice({
   name: "pestoProject",
+  initialState: {...pestoInitialState},
+  /*
   initialState: {
     ...pestoInitialState,
     voudrais: {
@@ -358,12 +364,12 @@ export const pestoProjectSlice = createSlice({
         }
       }
     },
-    /**
-     * Ouuuhhhh grosse piste pour lamise à jour du state: https://redux-toolkit.js.org/rtk-query/usage/migrating-to-rtk-query#slice
-     */
+    // 
+    // Ouuuhhhh grosse piste pour lamise à jour du state: https://redux-toolkit.js.org/rtk-query/usage/migrating-to-rtk-query#slice
+    // 
     dataByName: {} as Record<string, PestoProjectApiEntity | undefined>,
     statusByName: {} as Record<string, GetProjectsListRequestState | undefined>,
-  },
+  },*/
   reducers: {
     /* EMPTY */
     // setItem: addItem
@@ -376,9 +382,9 @@ export const pestoProjectSlice = createSlice({
       .addCase(createPestoProjectAsync.pending, (state) => {
         state.status = "pending"
         console.log(" PESTO REDUCER [createPestoProjectAsync] pending...")
-        console.log(` PESTO REDUCER [createPestoProjectAsync] [${state.voudrais.je + ' /// ' + state.voudrais.truc.de.ouf }]`)
-        console.log(`${state.voudrais.je}`)
-        console.log(`${state.voudrais.truc.de.ouf}`)
+        // console.log(` PESTO REDUCER [createPestoProjectAsync] [${state.voudrais.je + ' /// ' + state.voudrais.truc.de.ouf }]`)
+        // console.log(`${state.voudrais.je}`)
+        // console.log(`${state.voudrais.truc.de.ouf}`)
         
       })
       .addCase(createPestoProjectAsync.fulfilled, (state, action) => {
@@ -531,6 +537,7 @@ export const pestoProjectSlice = createSlice({
  */
 // export const reques t_Output = (state: RootState) => state.getAllPestoProjects.projectList
 
+// export const pestoProjectListRequestOutput = (state: RootState) => state.pestoProjectList.projectList
 export const pestoProjectListRequestOutput = (state: RootState) => state.pestoProjectList.projectList
 
 export default pestoProjectSlice.reducer

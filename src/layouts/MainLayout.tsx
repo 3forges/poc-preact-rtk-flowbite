@@ -13,6 +13,8 @@ import { Flowbite } from 'flowbite-react';
 import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
 import { FunctionalComponent } from 'preact';
 import FlowbiteExample1 from '../components/FlowbiteExample1';
+import { PestoContentTypeDetail } from '../pages/PestoContentTypeDetail';
+import { PestoContentTypeList } from '../pages/PestoContentTypeList';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -68,6 +70,8 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <F
               // <PestoProjectDetailUI path="/projects/:id" project={{_id: parseInt(":id"), name: "fake", description: "fake", git_ssh_uri: "faketoo"}}/>
             }
             <Route path="/project/:project_id?" component={PestoProjectDetailUI}/>
+            <Route path="/content-type/:project_id?" component={PestoContentTypeDetail}/>
+            <Route path="/content-types" component={PestoContentTypeList}/>
             <Route path="/about" component={About}/>
             <Route path="/pricing" component={Pricing}/>
             <Route path="/contact" component={Contact}/>

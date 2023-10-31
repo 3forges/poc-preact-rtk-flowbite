@@ -1,12 +1,13 @@
-import { useState, useEffect } from "preact/hooks"
-import { useAppDispatch, useAppSelector } from "../app/hooks"
+import { useState } from "preact/hooks"
+
 import {
-  RequestProjectList,
   PestoProjectApiEntity,
-  pestoProjectListRequestOutput,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
 import { ProjectListCard } from "../components/Project/ProjectListCard"
-import { Dropdown, Button, TextInput } from "flowbite-react"
+import { Dropdown, TextInput } from "flowbite-react"
+import { pestoApi } from "../app/api"
+import { ContentTypeCard } from "../components/ContentType/ContentTypeCard"
+const { useProjectListQuery } = pestoApi
 
 interface Filter {
   target: number
@@ -24,11 +25,24 @@ interface Filter {
  *  PROVIDE LIST WITH OPTIONAL BUTTONS (EDIT|REMOVE)
  * @returns PROJECT USER INTERFACE MANAGEMENT
  */
-export function PestoProjectUI(): JSX.Element {
+export function PestoContentTypeList(): JSX.Element {
   // console.dir(props)
-  const dispatch = useAppDispatch()
-  let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectListRequestOutput)
+  // const dispatch = useAppDispatch()
+  // let requestOutput: PestoProjectApiEntity[] = useAppSelector(pestoProjectListRequestOutput)
   const [filter, SetFilter] = useState({ target: 0, value: "" })
+
+  const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
+
+
+  if (isLoading || isUninitialized) {
+    return <div>loading ...</div>
+  }
+  if (isError) {
+    return <div>something went wrong !</div>
+  }
+
+
+
   // const [projectList, setProjectList] = useState<PestoProjectApiEntity[]>(requestOutput)
   // setProjectList([...requestOutput])
   // dispatch(RequestProjectList())
@@ -43,11 +57,11 @@ export function PestoProjectUI(): JSX.Element {
   /**
    * OK LA C SUR: useEffect s'exécute après le render
    */
-  useEffect(() => {
-    //(async () => {await dispatch(RequestProjectList())})()
-    console.log(` [PestoProjectUI] Appel USE EFFECT [dispatch(RequestProjectList())]`)
-    dispatch(RequestProjectList())
-  }, [dispatch])
+  // // useEffect(() => {
+  // //   //(async () => {await dispatch(RequestProjectList())})()
+  // //   console.log(` [PestoContentTypeList] Appel USE EFFECT [dispatch(RequestProjectList())]`)
+  // //   dispatch(RequestProjectList())
+  // // }, [dispatch])
   
   /* FILTERS  */
   const filters: Filter[] = [
@@ -143,22 +157,25 @@ export function PestoProjectUI(): JSX.Element {
             SetFilter({ target: filter.target, value: e.target.value })
           }
         />
-        <Button type="submit" onClick={() => dispatch(RequestProjectList())}>
-          Filter
-        </Button>
+        {/**
+          *  <Button type="submit" onClick={() => dispatch(RequestProjectList())}>Filter</Button>
+          **/
+        }
+        
       </div>
       {/* ----------------------PAGINATION------------------- */}
 
 
       {/* ----------------------PROJECT LIST------------------- */}
       <div className="projects">
-        {requestOutput &&
-          requestOutput[0] &&
-          requestOutput[0]._id !== 0 &&
-          requestOutput.map((project: PestoProjectApiEntity, index: number) => {
+        {pestoProjectListData &&
+          pestoProjectListData[0] &&
+          pestoProjectListData[0]._id !== 0 &&
+          pestoProjectListData.map((project: PestoProjectApiEntity, index: number) => {
             return (
-              <div key={project._id}>
-                  <ProjectListCard
+              <div>
+                  <span>Project # {index}</span>
+                  <ContentTypeCard
                     project={project}
                     isEditModeOn={false}
                   />

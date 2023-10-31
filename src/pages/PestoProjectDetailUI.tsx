@@ -35,6 +35,7 @@ export const PestoProjectDetailUI: FunctionalComponent<PestoProjectDetailProps> 
   
   const getProjectFromId = (param_project_id: string): PestoProjectApiEntity => {
     let toReturn: PestoProjectApiEntity = {
+      _id: 0,
       name: 'defaultOne',
       description: "default desc",
       git_ssh_uri: 'git@github.com:3forges/pesto-api'

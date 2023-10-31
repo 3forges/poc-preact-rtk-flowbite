@@ -1,0 +1,49 @@
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+
+Type 
+'(getDefaultMiddleware: 
+   CurriedGetDefaultMiddleware<{ 
+    pestoProjectList: { 
+      projectList: PestoProjectApiEntity[];
+      status: "completed" | "pending" | "failed"; 
+    }; 
+   }>
+  ) => MiddlewareArray<...>[]' 
+  
+  is not assignable to type 
+  
+  'Middlewares<{
+    pestoProjectList: { 
+      projectList: PestoProjectApiEntity[];
+      status: "completed" | "pending" | "failed";
+    };
+  }> 
+  | 
+  (
+    (getDefaultMiddleware: CurriedGetDefaultMiddleware<{
+      pestoProjectList: { ...; }; }>) 
+        => Middlewares<...>) | undefined'.
+
+
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+# --- # --- # --- # --- # --- # --- # --- # --- #
+
+
+  Type '(getDefaultMiddleware: CurriedGetDefaultMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>) => MiddlewareArray<...>[]' is not assignable to type '(getDefaultMiddleware: CurriedGetDefaultMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>) => Middlewares<...>'.
+    Type 'MiddlewareArray<[ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>, Middleware<...>]>[]' is not assignable to type 'Middlewares<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>'.
+      Type 'MiddlewareArray<[ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>, Middleware<...>]>' is not assignable to type 'Middleware<{}, { pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, Dispatch<AnyAction>>'.
+        Type 'MiddlewareArray<[ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>, Middleware<...>]>' provides no match for the signature '(api: MiddlewareAPI<Dispatch<AnyAction>, { pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }>): (next: Dispatch<...>) => (action: any) => any'.ts(2322)
+configureStore.d.ts(30, 5): The expected type comes from property 'middleware' which is declared here on type 'ConfigureStoreOptions<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction, Middlewares<{ pestoProjectList: { ...; }; }>, [...]>'
+(property) ConfigureStoreOptions<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction, [ThunkMiddleware<{ pestoProjectList: { projectList: PestoProjectApiEntity[]; status: "completed" | "pending" | "failed"; }; }, AnyAction>], [...]>.middleware?: [ThunkMiddleware<{
+    pestoProjectList: {
+        projectList: PestoProjectApiEntity[];
+        status: "completed" | "pending" | "failed";
+    };
+}, AnyAction>] | ((getDefaultMiddleware: CurriedGetDefaultMiddleware<...>) => [...]) | undefined
