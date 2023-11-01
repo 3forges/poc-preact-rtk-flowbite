@@ -30,7 +30,7 @@ export function PestoContentTypeList(): JSX.Element {
 
   if (isLoading || isUninitialized) {
     return (<div> 
-              <Alert><Spinner aria-label="Loading..." className={`rounded bg-cyan-300 text-pink-300 p-1 ml-2 mr-2`} />Loading... Alert !</Alert>
+              <Alert><Spinner aria-label="Loading..." className={`rounded bg-cyan-300 text-yellow-300 p-1 ml-2 mr-2`} />Loading <code>Pesto Content Types</code> ...</Alert>
             </div>
            )
     
