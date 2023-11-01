@@ -12,9 +12,10 @@ import type { CustomFlowbiteTheme } from 'flowbite-react';
 import { Flowbite } from 'flowbite-react';
 import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
 import { FunctionalComponent } from 'preact';
-import FlowbiteExample1 from '../components/FlowbiteExample1';
+// import FlowbiteExample1 from '../components/FlowbiteExample1';
 import { PestoContentTypeDetail } from '../pages/PestoContentTypeDetail';
 import { PestoContentTypeList } from '../pages/PestoContentTypeList';
+
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -45,7 +46,7 @@ const truc = {
 
 console.log(` truc - [${truc["c ça"]}]`)
 
-export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <FlowbiteExample1 /> }: MainLayoutProps ): JSX.Element => {
+export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <></>/*<FlowbiteExample1 />*/ }: MainLayoutProps ): JSX.Element => {
     //const [isDark, setIsDark] = useState<boolean>(false);
 
     return (

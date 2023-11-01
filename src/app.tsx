@@ -1,5 +1,6 @@
 import './app.css'
 import Layout from './layouts/MainLayout'
+import 'flowbite/dist/flowbite' // this is the javascript capabilities of flowbite, it adds behavior
 
 export function App() {
   /*

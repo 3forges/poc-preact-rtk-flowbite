@@ -3,7 +3,11 @@ import { useState } from "preact/hooks"
 import {
   PestoProjectApiEntity,
 } from "../features/PestoApi/Projects/pestoProjectSlice"
-import { Dropdown, Spinner, TextInput, Alert } from "flowbite-react"
+import { Dropdown, Spinner, TextInput, Alert, Toast } from "flowbite-react"
+// import { HiCheck, HiExclamation, HiX } from 'react-icons/hi';
+/// import { HiCheck, HiExclamation, HiX } from 'flowbite-react';
+import { Highlighter, HandIcon, EyeOffIcon, EyeIcon, HopIcon, BellIcon } from 'lucide-preact'
+
 import { pestoApi } from "../app/api"
 import { ContentTypeCard } from "../components/ContentType/ContentTypeCard"
 const { useProjectListQuery } = pestoApi
@@ -26,19 +30,38 @@ interface Filter {
  */
 export function PestoContentTypeList(): JSX.Element {
   const [filter, SetFilter] = useState({ target: 0, value: "" })
-  const { data: pestoProjectListData, isLoading, isError, isUninitialized } = useProjectListQuery()
+  const { data: pestoProjectListData = [], isLoading, isError, isUninitialized, isSuccess } = useProjectListQuery()
 
   if (isLoading || isUninitialized) {
-    return (<div> 
-              <Alert><Spinner aria-label="Loading..." className={`rounded bg-cyan-300 text-yellow-300 p-1 ml-2 mr-2`} />Loading <code>Pesto Content Types</code> ...</Alert>
-            </div>
-           )
-    
+    return (<div>
+      <Alert className={`m-5`}><Spinner aria-label="Loading..." className={`rounded bg-cyan-300 text-yellow-300 p-1 ml-2 mr-2`} />Loading <code>Pesto Content Types</code> ...</Alert>
+    </div>
+    )
+
   }
+
+//  if (isSuccess) {
+//    return (
+//      <>
+//      <Toast>
+//        <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+//          {//<HiCheck className="h-5 w-5" />
+//          }
+//          <BellIcon className="h-5 w-5" />
+//          {//Highlighter, HandIcon, EyeOffIcon, EyeIcon, HopIcon, 
+//          }
+//        </div>
+//        <div className="ml-3 text-sm font-normal">Pesto Project Items loaded successfully.</div>
+//        <Toast.Toggle />
+//      </Toast>
+//      </>
+//    )
+//  }
+
   if (isError) {
-    return (<div> 
-            <Alert>something went wrong !</Alert>
-           </div>)
+    return (<div>
+      <Alert>something went wrong !</Alert>
+    </div>)
   }
 
   /* FILTERS  */
@@ -94,14 +117,33 @@ export function PestoContentTypeList(): JSX.Element {
     },
   ]
   // if (filter.value !== "" && requestOutput.length > 0) {
-    // requestOutput = requestOutput.filter(filters[filter.target].filterfunction)
+  // requestOutput = requestOutput.filter(filters[filter.target].filterfunction)
   // }
 
   /* ----------------------- JSX ----------------------- */
   return (
+    <>
+      
+    {isSuccess ? (
+        <Toast>
+          <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+            {//<HiCheck className="h-5 w-5" />
+            }
+            <BellIcon className="h-5 w-5" />
+            {//Highlighter, HandIcon, EyeOffIcon, EyeIcon, HopIcon, 
+            }
+          </div>
+          <div className="ml-3 text-sm font-normal">Pesto Project Items loaded successfully.</div>
+          <Toast.Toggle />
+        </Toast>
+        
+      ): (
+        <></>
+      )
+    }
     <div>
 
-      <hr style="margin:10px"/>
+      <hr style="margin:10px" />
       {/* ----------------------FILTRE------------------- */}
       <div className="flex max-w-md flex-row gap-4 m-4">
         <Dropdown
@@ -135,7 +177,7 @@ export function PestoContentTypeList(): JSX.Element {
             SetFilter({ target: filter.target, value: e.target.value })
           }
         />
-        
+
       </div>
       {/* ----------------------PAGINATION------------------- */}
 
@@ -148,16 +190,18 @@ export function PestoContentTypeList(): JSX.Element {
           pestoProjectListData.map((project: PestoProjectApiEntity, index: number) => {
             return (
               <div>
-                  <span>Project # {index}</span>
-                  <ContentTypeCard
-                    project={project}
-                    isEditModeOn={false}
-                  />
+                <span>Project # {index}</span>
+                <ContentTypeCard
+                  project={project}
+                  isEditModeOn={false}
+                />
               </div>
             )
           }
-        )}
+          )}
       </div>
     </div>
+    
+    </>
   )
 }

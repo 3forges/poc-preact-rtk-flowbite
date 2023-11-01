@@ -1,14 +1,16 @@
 import { render } from 'preact'
 import {createApi, ApiProvider, fetchBaseQuery } from "@reduxjs/toolkit/query/react"
 import './index.css'
+import 'flowbite';
+// import 'flowbite/dist/flowbite.min.js';
 
-import { useState } from "preact/hooks";
-//import React from "preact"
-//import ReactDOM from "react-dom/client"
-//import { Provider } from "react-redux"
-//import { store } from "./app/store.js"
+// import { useState } from "preact/hooks";
+// import React from "preact"
+// import ReactDOM from "react-dom/client"
+// import { Provider } from "react-redux"
+// import { store } from "./app/store.js"
 // import App from "./App"
-import "./index.css"
+
 const API_PORT = "3000"
 const API_HOST = "localhost"
 const API_BASE_URL = `http://${API_HOST}:${API_PORT}/`
