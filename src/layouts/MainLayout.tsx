@@ -9,7 +9,7 @@ import About from "../pages/About"
 import Pricing from "../pages/Pricing"
 import Contact from "../pages/Contact"
 import type { CustomFlowbiteTheme } from 'flowbite-react';
-import { Flowbite, Sidebar } from 'flowbite-react';
+import { Button, Flowbite, Sidebar } from 'flowbite-react';
 import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
 import { FunctionalComponent } from 'preact';
 // import FlowbiteExample1 from '../components/FlowbiteExample1';
@@ -47,6 +47,42 @@ const truc = {
 
 console.log(` truc - [${truc["c ça"]}]`)
 
+export const PestoSideBar = () => {
+  return (
+    <>
+            <Sidebar className={"h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"} aria-label="Sidebar with logo branding example">
+              <Sidebar.Logo href="#" img="/favicon.svg" imgAlt="Flowbite logo">
+                Pesto
+              </Sidebar.Logo>
+              <Sidebar.Items>
+                <Sidebar.ItemGroup>
+                  <Sidebar.Item href="#" icon={GaugeCircleIcon}>
+                    Dashboard
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#" icon={Table2Icon}>
+                    Kanban
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#" icon={CpuIcon}>
+                    Inbox
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#" icon={UserIcon}>
+                    Users
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#" icon={BaggageClaimIcon}>
+                    Products
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#" icon={LogInIcon}>
+                    Sign In
+                  </Sidebar.Item>
+                  <Sidebar.Item href="#" icon={ArrowUpSquareIcon}>
+                    Sign Up
+                  </Sidebar.Item>
+                </Sidebar.ItemGroup>
+              </Sidebar.Items>
+            </Sidebar>
+    </>
+  )
+}
 export const MockedContent = () => {
   return (
     <>
@@ -174,38 +210,14 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
           })
         }
         <div>
-
-          <aside class="z-40 w-50 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
-            <Sidebar className={"h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"} aria-label="Sidebar with logo branding example">
-              <Sidebar.Logo href="#" img="/favicon.svg" imgAlt="Flowbite logo">
-                Pesto
-              </Sidebar.Logo>
-              <Sidebar.Items>
-                <Sidebar.ItemGroup>
-                  <Sidebar.Item href="#" icon={GaugeCircleIcon}>
-                    Dashboard
-                  </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={Table2Icon}>
-                    Kanban
-                  </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={CpuIcon}>
-                    Inbox
-                  </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={UserIcon}>
-                    Users
-                  </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={BaggageClaimIcon}>
-                    Products
-                  </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={LogInIcon}>
-                    Sign In
-                  </Sidebar.Item>
-                  <Sidebar.Item href="#" icon={ArrowUpSquareIcon}>
-                    Sign Up
-                  </Sidebar.Item>
-                </Sidebar.ItemGroup>
-              </Sidebar.Items>
-            </Sidebar>
+          {// <Button target={``} data-drawer-target="pesto-sidebar" data-drawer-toggle="pesto-sidebar" aria-controls="pesto-sidebar" >
+          }
+          <Button target={`pesto-sidebar`} toggle={"pesto-sidebar"} ariaControls={"pesto-sidebar"} >
+            Toggle
+          </Button>
+          
+          <aside id="pesto-sidebar" class="z-40 w-50 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
+            <PestoSideBar />
           </aside>
           <MockedContent />
           <div>
