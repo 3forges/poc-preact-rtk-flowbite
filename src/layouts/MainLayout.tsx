@@ -9,13 +9,14 @@ import About from "../pages/About"
 import Pricing from "../pages/Pricing"
 import Contact from "../pages/Contact"
 import type { CustomFlowbiteTheme } from 'flowbite-react';
-import { Flowbite } from 'flowbite-react';
+import { Flowbite, Sidebar } from 'flowbite-react';
 import { PestoProjectDetailUI } from '../pages/PestoProjectDetailUI';
 import { FunctionalComponent } from 'preact';
 // import FlowbiteExample1 from '../components/FlowbiteExample1';
 import { PestoContentTypeDetail } from '../pages/PestoContentTypeDetail';
 import { PestoContentTypeList } from '../pages/PestoContentTypeList';
 
+import { TvIcon, BusIcon, CpuIcon, User2Icon, CircuitBoardIcon, BookMarkedIcon, BiohazardIcon, BotIcon, UserIcon, BaggageClaimIcon, ArrowUpSquareIcon, Table2Icon} from 'lucide-preact';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -57,6 +58,7 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
 
 
         <NavBar />
+
         {/* children */}
         { 
             Children.forEach(children, (child, index) => {
@@ -77,6 +79,39 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
             <Route path="/pricing" component={Pricing}/>
             <Route path="/contact" component={Contact}/>
         </Router>
+
+        <aside class="fixed top-0 left-0 w-64 h-full" aria-label="Sidenav">
+        <Sidebar aria-label="Sidebar with logo branding example">
+          <Sidebar.Logo href="#" img="/favicon.svg" imgAlt="Flowbite logo">
+            Flowbite
+          </Sidebar.Logo>
+          <Sidebar.Items>
+            <Sidebar.ItemGroup>
+              <Sidebar.Item href="#" icon={BusIcon}>
+                Dashboard
+              </Sidebar.Item>
+              <Sidebar.Item href="#" icon={BotIcon}>
+                Kanban
+              </Sidebar.Item>
+              <Sidebar.Item href="#" icon={CpuIcon}>
+                Inbox
+              </Sidebar.Item>
+              <Sidebar.Item href="#" icon={UserIcon}>
+                Users
+              </Sidebar.Item>
+              <Sidebar.Item href="#" icon={BaggageClaimIcon}>
+                Products
+              </Sidebar.Item>
+              <Sidebar.Item href="#" icon={ArrowUpSquareIcon}>
+                Sign In
+              </Sidebar.Item>
+              <Sidebar.Item href="#" icon={Table2Icon}>
+                Sign Up
+              </Sidebar.Item>
+            </Sidebar.ItemGroup>
+          </Sidebar.Items>
+        </Sidebar>
+        </aside>
         <PestoFooter />
         </Flowbite>
         </>
