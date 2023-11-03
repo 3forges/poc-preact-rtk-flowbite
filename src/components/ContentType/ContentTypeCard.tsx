@@ -345,9 +345,6 @@ export function ContentTypeCard(props: ListProps): JSX.Element {
                     ) || (
                       <></>
                     )}
-              <span>didDeletionThrowError</span>
-              <span>isSuccessfullyDeleted</span>
-              <span>isDeleting</span>
             </Button>
       </div>
       </Card>
