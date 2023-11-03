@@ -1,10 +1,18 @@
 'use client';
 
-import { Avatar, Dropdown, Navbar } from 'flowbite-react';
+import { Avatar, Button, Dropdown, Navbar } from 'flowbite-react';
 
 import { useSidebarContext } from "../context/SideBarContext";
-
+import { LogInIcon, GithubIcon } from 'lucide-preact'
 export default function NavbarWithDropdown() {
+  /**
+   * Login
+   */
+  const [ github_oauth_client_id,
+  github_oauth_redirect_uri ] = [
+    `c994e3dbc8e38a3ec130`, // github_oauth_client_id
+    `http%3A%2F%2Ftestwebsite.pokus.io%3A5173%2Fpricing`, // github_oauth_redirect_uri
+  ]
   /**
    * Sidebar collapse
    */
@@ -79,6 +87,22 @@ export default function NavbarWithDropdown() {
           <Dropdown.Item>Earnings</Dropdown.Item>
           <Dropdown.Divider />
           <Dropdown.Item>Sign out</Dropdown.Item>
+          <Dropdown.Item icon={LogInIcon} onClick={() => {
+
+          }}>
+            <Button gradientDuoTone="pinkToOrange" onClick={() => {
+                console.log(``)
+                window.location.href = `http://keycloak.pesto.io:8081/auth/realms/pesto/protocol/openid-connect/auth?response_type=token&client_id=pesto-oidc-client-id&redirect_uri=http%3A%2F%2Ftestwebsite.pokus.io%3A5173%2Fprojects`
+            }}>Pesto Login</Button>
+            </Dropdown.Item>
+            <Dropdown.Item icon={GithubIcon} onClick={() => {
+
+}}>
+  <Button gradientDuoTone="pinkToOrange" onClick={() => {
+      console.log(``)
+      window.location.href = `https://github.com/login/oauth/authorize?scope=user&client_id=${github_oauth_client_id}&redirect_uri=${github_oauth_redirect_uri}`
+  }}>Github Login</Button>
+  </Dropdown.Item>
         </Dropdown>
         <Navbar.Toggle />
       </div>
