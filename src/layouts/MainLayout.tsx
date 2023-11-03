@@ -1,5 +1,5 @@
 //import { useState } from 'preact/hooks';
-import { Children } from 'preact/compat';
+import { Children, useState } from 'preact/compat';
 import NavBar from '../components/NavBar'
 import PestoFooter from '../components/Footer';
 import { PestoProjectUI } from "../pages/PestoProjectUI"
@@ -192,6 +192,7 @@ export const MockedContent = () => {
 }
 export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <></>/*<FlowbiteExample1 />*/ }: MainLayoutProps): JSX.Element => {
   //const [isDark, setIsDark] = useState<boolean>(false);
+  const [isNavBarOpened, setIsNavBarOpened] = useState<boolean>(false);
 
   return (
     <>
@@ -215,7 +216,7 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
           <Button target={`pesto-sidebar`} toggle={"pesto-sidebar"} ariaControls={"pesto-sidebar"} >
             Toggle
           </Button>
-          
+
           <aside id="pesto-sidebar" class="z-40 w-50 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
             <PestoSideBar />
           </aside>

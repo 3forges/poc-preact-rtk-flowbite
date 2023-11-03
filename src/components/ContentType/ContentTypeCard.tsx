@@ -2,11 +2,11 @@ import { useState } from "preact/hooks";
 import {
   PestoProjectApiEntity,
 } from "../../features/PestoApi/Projects/pestoProjectSlice"
-import { Button, TextInput, Card } from "flowbite-react"
-import { KeyRound as LuKeyRound, SaveAll as LuSaveAll } from 'lucide-preact';
-import { pestoApi } from "../../app/api"
+import { Button, TextInput, Card, Toast } from "flowbite-react"
+import { KeyRound as LuKeyRound, SaveAll as LuSaveAll, BugIcon as LuErrorIcon, CheckIcon as LuSuccessIcon } from 'lucide-preact';
+import { useDeleteProjectMutation, useUpdateProjectMutation } from "../../app/api"
 import { Spinner } from "flowbite-react"
-const { useUpdateProjectMutation, useDeleteProjectQuery } = pestoApi
+
 
 
 
@@ -30,6 +30,7 @@ export function ProjectCardEditModeOn({ project, setIsEditModeOnHook, setProject
       isSuccess
     }
   ] = useUpdateProjectMutation();
+
 
   return (
       <>
@@ -257,7 +258,11 @@ export function ContentTypeCard(props: ListProps): JSX.Element {
   // }, [dispatch])
   const [ isEditModeOn, setIsEditModeOn] = useState<boolean>(false);
   const [ project, setProject] = useState<PestoProjectApiEntity>(props.project);
-
+  const [deleteProject, {
+    isError: didDeletionThrowError,
+    isSuccess: hasSuccessfullyDeletedProject,
+    isLoading: isDeletingProject,
+  }] = useDeleteProjectMutation();
   return (
     <>
       {// READONLY MODE
@@ -290,13 +295,59 @@ export function ContentTypeCard(props: ListProps): JSX.Element {
             </a>
             <Button
               onClick={async () => {
-                await useDeleteProjectQuery({
+                await deleteProject({
                   _id: `${project._id}`
                 })
                 // await dispatch(DeleteProjectById(`${project._id}`))
               }}
             >
+
               Remove
+              {isDeletingProject && (
+                        <Spinner aria-label="Romving project..." />
+                    ) || (
+                      <></>
+                    )}
+
+                    {hasSuccessfullyDeletedProject && (
+
+                      <>
+                            <Toast>
+                              <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+                                <LuSuccessIcon className="h-5 w-5" />
+                              </div>
+                              <div className="ml-3 text-sm font-normal">Project {project.name} successfully deleted.</div>
+                              <Toast.Toggle />
+                            </Toast>                    
+                      <span>
+                        {// 
+                        `${JSON.stringify(project, null, 4)}`
+                        }
+                      </span>
+                      </>
+                    ) || (
+                      <></>
+                    )}
+
+                    {didDeletionThrowError && (
+                          <Toast>
+                            <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+                              <LuErrorIcon className="h-5 w-5" />
+                            </div>
+                            <div className="ml-3 text-sm font-normal">An error was encountered while trying to delete the {`${project.name}`} project:</div>
+                            <div className="ml-3 text-sm font-normal">
+                              <pre>
+                                
+                              </pre>
+                            </div>
+                            <Toast.Toggle />
+                          </Toast>
+                    ) || (
+                      <></>
+                    )}
+              <span>didDeletionThrowError</span>
+              <span>isSuccessfullyDeleted</span>
+              <span>isDeleting</span>
             </Button>
       </div>
       </Card>

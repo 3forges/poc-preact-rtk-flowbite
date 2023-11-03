@@ -214,8 +214,7 @@ export const pestoApi = createApi({
         };
       },
     }),
-
-    deleteProject: build.query<
+    deleteProject: build.mutation<
       PestoProjectApiEntity,
       {
         _id?: string;
@@ -233,7 +232,7 @@ export const pestoApi = createApi({
           /* params: {
               limit: 10
             }, */
-          method: "PUT",
+          method: "DELETE",
         };
       },
     }),
@@ -244,5 +243,6 @@ export const {
   useCreateNewProjectQuery,
   useUpdateProjectMutation,
   useProjectListQuery,
-  useDeleteProjectQuery,
+  useDeleteProjectMutation,
+  useProjectDetailQuery,
 } = pestoApi;
