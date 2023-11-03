@@ -19,6 +19,8 @@ export const pestoApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
   }),
+  // global configuration for the api
+  keepUnusedDataFor: 30,
   tagTypes: ['PestoProjectApiEntity'],
   endpoints: (build) => ({
     createNewProject: build.query<
@@ -56,6 +58,8 @@ export const pestoApi = createApi({
           method: "GET",
         };
       },
+      // configuration for an individual endpoint, overriding the api setting
+      keepUnusedDataFor: 0,
     }),
     projectDetail: build.query<
       PestoProjectApiEntity,
@@ -71,6 +75,8 @@ export const pestoApi = createApi({
         console.log(" RTK QUERY - I am the [projectDetail] query Fn ", _id);
         return { url: `pesto-project/${_id}` };
       },
+      // configuration for an individual endpoint, overriding the api setting
+      keepUnusedDataFor: 0,
     }),
     /**
      * Updating a Pesto Project (should be a `PestoContentType`)
