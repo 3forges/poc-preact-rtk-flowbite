@@ -34,6 +34,7 @@ export const pestoApi = createApi({
       query({ v_name, v_git_ssh_uri, v_description }) {
         console.log(` RTK QUERY - I am the [createNewProject]`);
         return {
+          window: null, // Can only be null. Used to disassociate request from any Window.
           url: "pesto-project",
           /* params: {
               limit: 10

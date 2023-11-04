@@ -17,6 +17,7 @@ import { PestoContentTypeDetail } from '../pages/PestoContentTypeDetail';
 import { PestoContentTypeList } from '../pages/PestoContentTypeList';
 
 import { TvIcon, BusIcon, CpuIcon, User2Icon, CircuitBoardIcon, BookMarkedIcon, BiohazardIcon, BotIcon, UserIcon, BaggageClaimIcon, ArrowUpSquareIcon, Table2Icon, RadarIcon, LogInIcon, GaugeCircleIcon } from 'lucide-preact';
+import { GithubLoginButton } from '../components/login/github/GithubLoginButton';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -51,7 +52,7 @@ export const PestoSideBar = () => {
   return (
     <>
             <Sidebar className={"h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"} aria-label="Sidebar with logo branding example">
-              <Sidebar.Logo href="#" img="/favicon.svg" imgAlt="Flowbite logo">
+              <Sidebar.Logo href="#" img="/public/favicon.svg" imgAlt="Flowbite logo">
                 Pesto
               </Sidebar.Logo>
               <Sidebar.Items>
@@ -234,6 +235,8 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
               <Route path="/about" component={About} />
               <Route path="/pricing" component={Pricing} />
               <Route path="/contact" component={Contact} />
+
+              <Route path="/oauth/github/login" component={GithubLoginButton}/>
             </Router>
           </div>
         </div>

@@ -7,7 +7,10 @@ export default defineConfig({
     host: `testwebsite.pokus.io`,
     // port: 5174,
     // host: `0.0.0.0`,
-    origin: `testwebsite.pokus.io`,
+    // origin: `testwebsite.pokus.io`,
+    cors: {
+      origin: `testwebsite.pokus.io, github.com`
+    },
   },
   plugins: [preact()],
 })
