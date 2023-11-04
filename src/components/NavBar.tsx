@@ -89,7 +89,13 @@ export default function NavbarWithDropdown() {
           <Dropdown.Divider />
           <Dropdown.Item>Sign out</Dropdown.Item>
           <Dropdown.Item icon={LogInIcon} >
-            
+          <Button gradientDuoTone="pinkToOrange" onClick={() => {
+                console.log(``)
+                window.location.href = `http://keycloak.pesto.io:8081/auth/realms/pesto/protocol/openid-connect/auth?response_type=code&client_id=pesto-oidc-client-id&redirect_uri=http%3A%2F%2Ftestwebsite.pokus.io%3A5173%2Fauth%2Foidc%2Fkeycloak`
+            }}>
+              <LogInIcon />
+              Pesto Login
+            </Button>
             </Dropdown.Item>
             <Dropdown.Item icon={GithubIcon} >
               <GithubLoginButton github_oauth_client_id={`${const_github_oauth_client_id}`} github_oauth_redirect_uri={`${const_github_oauth_redirect_uri}`} />
