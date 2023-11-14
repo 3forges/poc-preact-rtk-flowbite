@@ -17,6 +17,9 @@ dependencies:
   axios:
     specifier: ^1.5.1
     version: 1.5.1
+  base-64:
+    specifier: ^1.0.0
+    version: 1.0.0
   flowbite:
     specifier: ^1.8.1
     version: 1.8.1
@@ -56,14 +59,26 @@ dependencies:
   rehype-sanitize:
     specifier: ^6.0.0
     version: 6.0.0
+  utf8:
+    specifier: ^3.0.0
+    version: 3.0.0
 
 devDependencies:
   '@preact/preset-vite':
     specifier: ^2.5.0
     version: 2.6.0(@babel/core@7.23.2)(preact@10.18.1)(vite@4.5.0)
+  '@types/base-64':
+    specifier: ^1.0.2
+    version: 1.0.2
+  '@types/katex':
+    specifier: ^0.16.6
+    version: 0.16.6
   '@types/redux-logger':
     specifier: ^3.0.11
     version: 3.0.11
+  '@types/utf8':
+    specifier: ^3.0.3
+    version: 3.0.3
   autoprefixer:
     specifier: ^10.4.16
     version: 10.4.16(postcss@8.4.31)
@@ -716,6 +731,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
+  /@types/base-64@1.0.2:
+    resolution: {integrity: sha512-uPgKMmM9fmn7I+Zi6YBqctOye4SlJsHKcisjHIMWpb2YKZRc36GpKyNuQ03JcT+oNXg1m7Uv4wU94EVltn8/cw==}
+    dev: true
+
   /@types/d3-scale-chromatic@3.0.2:
     resolution: {integrity: sha512-kpKNZMDT3OAX6b5ct5nS/mv6LULagnUy4DmS6yyNjclje1qVe7vbjPwY3q1TGz6+Wr2IUkgFatCzqYUl54fHag==}
     dev: false
@@ -754,6 +773,10 @@ packages:
       '@types/react': 18.2.31
       hoist-non-react-statics: 3.3.2
     dev: false
+
+  /@types/katex@0.16.6:
+    resolution: {integrity: sha512-rZYO1HInM99rAFYNwGqbYPxHZHxu2IwZYKj4bJ4oh6edVrm1UId8mmbHIZLBtG253qU6y3piag0XYe/joNnwzQ==}
+    dev: true
 
   /@types/mdast@3.0.15:
     resolution: {integrity: sha512-LnwD+mUEfxWMa1QpDraczIn6k0Ee3SMicuYSSzS6ZYl2gKS09EClnJYGd8Du6rfc5r/GZEk5o1mRb8TaTj03sQ==}
@@ -811,6 +834,10 @@ packages:
   /@types/use-sync-external-store@0.0.3:
     resolution: {integrity: sha512-EwmlvuaxPNej9+T4v5AuBPJa2x2UOJVdjCtDHgcDqitUeOtjnJKJ+apYjVcAoBEMjKW1VVFGZLUb5+qqa09XFA==}
     dev: false
+
+  /@types/utf8@3.0.3:
+    resolution: {integrity: sha512-+lqLGxWZsEe4Z6OrzBI7Ym4SMUTaMS5yOrHZ0/IL0bpIye1Qbs4PpobJL2mLDbftUXlPFZR7fu6d1yM+bHLX1w==}
+    dev: true
 
   /@uiw/copy-to-clipboard@1.0.16:
     resolution: {integrity: sha512-IXR+N363nLTR3ilklmM+B0nk774jVE/muOrBYt4Rdww/Pf3uP9XHyv2x6YZrbDh29F7w9BkzQyB8QF6WDShmJA==}
@@ -933,6 +960,10 @@ packages:
 
   /balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  /base-64@1.0.0:
+    resolution: {integrity: sha512-kwDPIFCGx0NZHog36dj+tHiwP4QMzsZ3AgMViUBKI0+V5n4U0ufTCUMhnQ04diaRI8EX/QcPfql7zlhZ7j4zgg==}
+    dev: false
 
   /bcp-47-match@2.0.3:
     resolution: {integrity: sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==}
@@ -3232,6 +3263,10 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: /@preact/compat@17.1.2(preact@10.18.1)
+    dev: false
+
+  /utf8@3.0.0:
+    resolution: {integrity: sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ==}
     dev: false
 
   /util-deprecate@1.0.2:
