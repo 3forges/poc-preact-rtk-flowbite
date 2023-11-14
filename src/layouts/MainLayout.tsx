@@ -19,6 +19,7 @@ import { PestoContentTypeList } from '../pages/PestoContentTypeList';
 import { TvIcon, BusIcon, CpuIcon, User2Icon, CircuitBoardIcon, BookMarkedIcon, BiohazardIcon, BotIcon, UserIcon, BaggageClaimIcon, ArrowUpSquareIcon, Table2Icon, RadarIcon, LogInIcon, GaugeCircleIcon } from 'lucide-preact';
 import { GithubLoginButton } from '../components/login/github/GithubLoginButton';
 import { MarkdownEditor } from '../components/editor/MarkdownEditor';
+import { StateUpdater } from 'preact/hooks';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -48,17 +49,34 @@ const truc = {
 }
 
 console.log(` truc - [${truc["c ça"]}]`)
+export interface PestoSideBarProps {
+  isOpenedParam: boolean;
+  setIsOpenedParam: StateUpdater<boolean>;
+}
+export const PestoSideBar = ({isOpenedParam, setIsOpenedParam}: PestoSideBarProps) => {
+  // const [ isOpened, setIsOpened ] = useState(true)
+  const [ isOpened, setIsOpened ] = [ isOpenedParam, setIsOpenedParam ]
+  
 
-export const PestoSideBar = () => {
+  const toggleHandler = () => {
+    setIsOpened(!isOpened)
+  }
   return (
     <>
-            <Sidebar className={"h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"} aria-label="Sidebar with logo branding example">
+            <Sidebar
+              class={`${isOpened?`w-76`:`w-6`} h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800`}
+              className={`${isOpened?`w-76`:`w-6`} h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800`}
+              aria-label="Sidebar with logo branding example"
+            >
               <Sidebar.Logo href="#" img="/public/favicon.svg" imgAlt="Flowbite logo">
                 Pesto
               </Sidebar.Logo>
               <Sidebar.Items>
                 <Sidebar.ItemGroup>
-                  <Sidebar.Item href="#" icon={GaugeCircleIcon}>
+                  <Sidebar.Item 
+                    href="#"
+                    icon={GaugeCircleIcon}
+                  >
                     Dashboard
                   </Sidebar.Item>
                   <Sidebar.Item href="/editor" icon={Table2Icon}>
@@ -197,8 +215,11 @@ export const MockedContent = () => {
 }
 export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <></>/*<FlowbiteExample1 />*/ }: MainLayoutProps): JSX.Element => {
   //const [isDark, setIsDark] = useState<boolean>(false);
-  const [isNavBarOpened, setIsNavBarOpened] = useState<boolean>(false);
+  const [isSideBarOpened, setIsSideBarOpened] = useState<boolean>(true);
 
+  const toggleSideBar = () => {
+    setIsSideBarOpened(!isSideBarOpened)
+  }
   return (
     <>
       <Flowbite theme={{ theme: customTheme }}>
@@ -215,15 +236,17 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
             return child;
           })
         }
-          <Button target={`pesto-sidebar`} toggle={"pesto-sidebar"} ariaControls={"pesto-sidebar"} >
+          <Button 
+          onClick={toggleSideBar}
+          target={`pesto-sidebar`} toggle={"pesto-sidebar"} ariaControls={"pesto-sidebar"} >
             Toggle
           </Button>
         <div class="flex">
           {// <Button target={``} data-drawer-target="pesto-sidebar" data-drawer-toggle="pesto-sidebar" aria-controls="pesto-sidebar" >
           }
 
-          <aside id="pesto-sidebar" class="z-40 w-50 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
-            <PestoSideBar />
+          <aside id="pesto-sidebar" class={`transition-all transition-transform z-40 ${isSideBarOpened?`w-50`:`w-0`} h-screen transition-transform -translate-x-full sm:translate-x-0`} aria-label="Sidenav">
+            <PestoSideBar isOpenedParam={isSideBarOpened} setIsOpenedParam={setIsSideBarOpened} />
           </aside>
           {//<MockedContent />
           }
