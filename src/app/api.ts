@@ -20,7 +20,22 @@ export const pestoApi = createApi({
     baseUrl: API_BASE_URL,
   }),
   // global configuration for the api
+  /**
+   * https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#reducing-subscription-time-with-keepunuseddatafor
+   */
   keepUnusedDataFor: 30,
+  /**
+   * https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#encouraging-re-fetching-with-refetchonmountorargchange
+   */
+  refetchOnMountOrArgChange: 17,
+  /**
+   * https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#re-fetching-on-window-focus-with-refetchonfocus
+   */
+  refetchOnFocus: true,
+  /**
+   * https://redux-toolkit.js.org/rtk-query/usage/cache-behavior#re-fetching-on-network-reconnection-with-refetchonreconnect
+   */
+  refetchOnReconnect: true,
   tagTypes: ['PestoProjectApiEntity'],
   endpoints: (build) => ({
     createNewProject: build.query<

@@ -67,7 +67,7 @@ export default function NavbarWithDropdown() {
 {// HERE END OF SIDEBAR HANDLING
 }
 
-      <Navbar.Brand href="https://flowbite-react.com">
+      <Navbar.Brand id="pesto_sidebar" href="https://flowbite-react.com">
         <img src={"/src/assets/flowbite.svg"} className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
         <span className="self-center whitespace-nowrap text-l p-3 font-semibold dark:text-white">Flowbite Preact</span>
       </Navbar.Brand>
@@ -91,9 +91,9 @@ export default function NavbarWithDropdown() {
           <Dropdown.Item >
           <Button gradientDuoTone="pinkToOrange" onClick={() => {
                 console.log(``)
-                window.location.href = `http://keycloak.pesto.io:8081/auth/realms/pesto/protocol/openid-connect/auth?response_type=code&client_id=pesto-oidc-client-id&redirect_uri=http%3A%2F%2Ftestwebsite.pokus.io%3A5173%2Fauth%2Foidc%2Fkeycloak`
+                window.location.href = `http://keycloak.pesto.io:8081/auth/realms/pesto/protocol/openid-connect/auth?response_type=token&client_id=pesto-oidc-client-id&redirect_uri=http%3A%2F%2Ftestwebsite.pokus.io%3A5173%2Fauth%2Foidc%2Fkeycloak`
             }}>
-              <LogInIcon />
+              <LogInIcon className={`p-1`} />
               Pesto Login
             </Button>
             </Dropdown.Item>

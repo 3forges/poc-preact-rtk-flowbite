@@ -29,8 +29,8 @@ export function SidebarProvider({
   // Close Sidebar on mobile tap inside main content
   useEffect(() => {
     function handleMobileTapInsideMain(event: MouseEvent) {
-      const main = document.querySelector("main");
-      const isClickInsideMain = main?.contains(event.target as Node);
+      const root = document.querySelector("root");
+      const isClickInsideMain = root?.contains(event.target as Node);
 
       if (isSmallScreen() && isClickInsideMain) {
         setOpen(false);

@@ -18,6 +18,7 @@ import { PestoContentTypeList } from '../pages/PestoContentTypeList';
 
 import { TvIcon, BusIcon, CpuIcon, User2Icon, CircuitBoardIcon, BookMarkedIcon, BiohazardIcon, BotIcon, UserIcon, BaggageClaimIcon, ArrowUpSquareIcon, Table2Icon, RadarIcon, LogInIcon, GaugeCircleIcon } from 'lucide-preact';
 import { GithubLoginButton } from '../components/login/github/GithubLoginButton';
+import { MarkdownEditor } from '../components/editor/MarkdownEditor';
 
 const customTheme: CustomFlowbiteTheme = {
   button: {
@@ -60,6 +61,9 @@ export const PestoSideBar = () => {
                   <Sidebar.Item href="#" icon={GaugeCircleIcon}>
                     Dashboard
                   </Sidebar.Item>
+                  <Sidebar.Item href="/editor" icon={Table2Icon}>
+                    Markdown Editor
+                  </Sidebar.Item>
                   <Sidebar.Item href="#" icon={Table2Icon}>
                     Kanban
                   </Sidebar.Item>
@@ -87,7 +91,7 @@ export const PestoSideBar = () => {
 export const MockedContent = () => {
   return (
     <>
-      <div class="p-4 sm:ml-64 w-50">
+      <div class="p-4 sm:ml-64 w-30">
         <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
           <div class="grid grid-cols-3 gap-4 mb-4">
             <div class="flex items-center justify-center h-24 rounded bg-gray-50 dark:bg-gray-800">
@@ -211,18 +215,19 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
             return child;
           })
         }
-        <div>
-          {// <Button target={``} data-drawer-target="pesto-sidebar" data-drawer-toggle="pesto-sidebar" aria-controls="pesto-sidebar" >
-          }
           <Button target={`pesto-sidebar`} toggle={"pesto-sidebar"} ariaControls={"pesto-sidebar"} >
             Toggle
           </Button>
+        <div class="flex">
+          {// <Button target={``} data-drawer-target="pesto-sidebar" data-drawer-toggle="pesto-sidebar" aria-controls="pesto-sidebar" >
+          }
 
           <aside id="pesto-sidebar" class="z-40 w-50 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidenav">
             <PestoSideBar />
           </aside>
-          <MockedContent />
-          <div>
+          {//<MockedContent />
+          }
+          <div class="p-2">
             <Router>
               <Route path="/" component={Home} />
               <Route path="/projects" component={PestoProjectUI} />
@@ -236,6 +241,7 @@ export const MainLayout: FunctionalComponent<MainLayoutProps> = ({ children = <>
               <Route path="/pricing" component={Pricing} />
               <Route path="/contact" component={Contact} />
 
+              <Route path="/editor" component={MarkdownEditor} />
               <Route path="/oauth/github/login" component={GithubLoginButton}/>
             </Router>
           </div>
